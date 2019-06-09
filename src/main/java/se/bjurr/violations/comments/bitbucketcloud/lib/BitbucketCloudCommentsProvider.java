@@ -82,6 +82,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
             .getValues()
             .stream()
             .map(it -> it.getComment())
+            .filter(it -> it != null)
             .map(COMMENT_TO_COMMENT)
             .collect(Collectors.toList());
 

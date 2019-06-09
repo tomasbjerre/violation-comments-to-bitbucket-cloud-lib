@@ -9,7 +9,7 @@ Changelog of Violation comments to bitbucket cloud lib.
 **Initial**
 
 
-[47280825d3a0856](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/47280825d3a0856) Tomas Bjerre *2019-06-09 08:19:01*
+[4c8b52d6b0429cd](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/4c8b52d6b0429cd) Tomas Bjerre *2019-06-09 14:49:35*
 
 
  

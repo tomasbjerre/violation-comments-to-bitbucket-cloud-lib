@@ -45,8 +45,8 @@ public class RestEasyClientFactoryTest {
       return;
     }
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
-    api.setUsername("tomasbjerre");
-    api.setPassword(password);
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
 
     final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
     final String username = "tomasbjerre";
@@ -67,8 +67,8 @@ public class RestEasyClientFactoryTest {
       return;
     }
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
-    api.setUsername("tomasbjerre");
-    api.setPassword(password);
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
 
     final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
     final String username = "tomasbjerre";
@@ -89,8 +89,8 @@ public class RestEasyClientFactoryTest {
       return "";
     }
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
-    api.setUsername("tomasbjerre");
-    api.setPassword(password);
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
 
     final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
     final String username = "tomasbjerre";
@@ -110,8 +110,8 @@ public class RestEasyClientFactoryTest {
       return;
     }
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
-    api.setUsername("tomasbjerre");
-    api.setPassword(password);
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
 
     final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
     final String username = "tomasbjerre";
@@ -132,8 +132,8 @@ public class RestEasyClientFactoryTest {
       return;
     }
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
-    api.setUsername("tomasbjerre");
-    api.setPassword(password);
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
 
     final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
     final String username = "tomasbjerre";

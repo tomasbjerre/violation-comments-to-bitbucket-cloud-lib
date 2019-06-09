@@ -51,20 +51,16 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public ViolationCommentsToBitbucketCloudApi() {}
 
+  public static ViolationCommentsToBitbucketCloudApi violationCommentsToBitbucketCloudApi() {
+    return new ViolationCommentsToBitbucketCloudApi();
+  }
+
   public String getUsername() {
     return username;
   }
 
-  public void setUsername(final String username) {
-    this.username = username;
-  }
-
   public String getPassword() {
     return password;
-  }
-
-  public void setPassword(final String password) {
-    this.password = password;
   }
 
   public String getWorkspace() {
@@ -111,67 +107,77 @@ public class ViolationCommentsToBitbucketCloudApi {
     return violationsLogger;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setViolationsLogger(
+  public ViolationCommentsToBitbucketCloudApi withPassword(final String password) {
+    this.password = password;
+    return this;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withUsername(final String username) {
+    this.username = username;
+    return this;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withViolationsLogger(
       final ViolationsLogger violationsLogger) {
     this.violationsLogger = violationsLogger;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setViolations(final List<Violation> violations) {
+  public ViolationCommentsToBitbucketCloudApi withViolations(final List<Violation> violations) {
     this.violations = violations;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setCommentOnlyChangedContentContext(
+  public ViolationCommentsToBitbucketCloudApi withCommentOnlyChangedContentContext(
       final int commentOnlyChangedContentContext) {
     this.commentOnlyChangedContentContext = commentOnlyChangedContentContext;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setCommentTemplate(final String commentTemplate) {
+  public ViolationCommentsToBitbucketCloudApi withCommentTemplate(final String commentTemplate) {
     this.commentTemplate = commentTemplate;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setCreateCommentWithAllSingleFileComments(
+  public ViolationCommentsToBitbucketCloudApi withCreateCommentWithAllSingleFileComments(
       final boolean createCommentWithAllSingleFileComments) {
     this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setMaxCommentSize(final Integer maxCommentSize) {
+  public ViolationCommentsToBitbucketCloudApi withMaxCommentSize(final Integer maxCommentSize) {
     this.maxCommentSize = maxCommentSize;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setMaxNumberOfViolations(
+  public ViolationCommentsToBitbucketCloudApi withMaxNumberOfViolations(
       final Integer maxNumberOfViolations) {
     this.maxNumberOfViolations = maxNumberOfViolations;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setWorkspace(final String workspace) {
+  public ViolationCommentsToBitbucketCloudApi withWorkspace(final String workspace) {
     this.workspace = workspace;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setRepositorySlug(final String repositorySlug) {
+  public ViolationCommentsToBitbucketCloudApi withRepositorySlug(final String repositorySlug) {
     this.repositorySlug = repositorySlug;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setPullRequestId(final String pullRequestId) {
+  public ViolationCommentsToBitbucketCloudApi withPullRequestId(final String pullRequestId) {
     this.pullRequestId = pullRequestId;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setShouldCreateSingleFileComment(
+  public ViolationCommentsToBitbucketCloudApi withShouldCreateSingleFileComment(
       final boolean shouldCreateSingleFileComment) {
     this.shouldCreateSingleFileComment = shouldCreateSingleFileComment;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi setShouldKeepOldComments(
+  public ViolationCommentsToBitbucketCloudApi withShouldKeepOldComments(
       final boolean shouldKeepOldComments) {
     this.shouldKeepOldComments = shouldKeepOldComments;
     return this;

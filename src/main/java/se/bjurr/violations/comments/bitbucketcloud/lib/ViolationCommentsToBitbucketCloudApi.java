@@ -171,13 +171,13 @@ public class ViolationCommentsToBitbucketCloudApi {
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi withShouldCreateSingleFileComment(
+  public ViolationCommentsToBitbucketCloudApi withCreateSingleFileComment(
       final boolean shouldCreateSingleFileComment) {
     this.shouldCreateSingleFileComment = shouldCreateSingleFileComment;
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi withShouldKeepOldComments(
+  public ViolationCommentsToBitbucketCloudApi withKeepOldComments(
       final boolean shouldKeepOldComments) {
     this.shouldKeepOldComments = shouldKeepOldComments;
     return this;

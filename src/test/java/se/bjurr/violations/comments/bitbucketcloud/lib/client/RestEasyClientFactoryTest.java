@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
+import org.junit.Test;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
 import se.bjurr.bitbucketcloud.gen.model.Comment;
 import se.bjurr.bitbucketcloud.gen.model.CommentContent;
@@ -30,9 +31,10 @@ public class RestEasyClientFactoryTest {
     this.password = new String(Files.readAllBytes(path), StandardCharsets.UTF_8).trim();
   }
 
-  // @Test
+  @Test
   public void doTest() {
     testGetDiff();
+    testGetDiffspec();
     testGetCommitsInPR();
     testCreateCommentInPr();
     final String commentId = testGetCommentsInPR();
@@ -40,7 +42,7 @@ public class RestEasyClientFactoryTest {
     testDeleteCommentsInPR(commentId);
   }
 
-  public void testGetDiff() {
+  public void testGetDiffspec() {
     if (password == null) {
       return;
     }
@@ -62,6 +64,31 @@ public class RestEasyClientFactoryTest {
     assertThat(actual.getValues()).hasSize(2);
   }
 
+  public void testGetDiff() {
+    if (password == null) {
+      return;
+    }
+    final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
+    api.withUsername("tomasbjerre");
+    api.withPassword(password);
+
+    final RepositoriesApi client = RestEasyClientFactory.create(RepositoriesApi.class, api);
+    final String username = "tomasbjerre";
+    final String repoSlug = "violations-test";
+
+    final String spec = "7e23c9a98019..master";
+    final Boolean ignoreWhitespace = true;
+    final Integer context = null;
+    final String path = null;
+    final String actual =
+        client.repositoriesUsernameRepoSlugDiffSpecGet(
+            username, spec, repoSlug, context, path, ignoreWhitespace, false);
+
+    assertThat(actual).isNotNull();
+
+    System.out.println(actual);
+  }
+
   public void testGetCommitsInPR() {
     if (password == null) {
       return;
@@ -81,7 +108,7 @@ public class RestEasyClientFactoryTest {
     assertThat(actual).isNotNull();
     assertThat(actual.getValues()).hasSize(2);
     assertThat(actual.getValues().get(0).getHash())
-        .isEqualTo("7e23c9a980197fe49fae67fb23687c857ff42f86");
+        .isEqualTo("a31d1b70c972c9476346232909a739b0416c4328");
   }
 
   public String testGetCommentsInPR() {

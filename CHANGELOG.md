@@ -6,6 +6,16 @@ Changelog of Violation comments to bitbucket cloud lib.
 ## Unreleased
 ### No issue
 
+**Handling test/plain**
+
+
+[6e6f87dc506b611](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/6e6f87dc506b611) Tomas Bjerre *2019-06-09 19:38:03*
+
+**shouldCommentOnlyChangedContent**
+
+
+[32a73105c94eba9](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/32a73105c94eba9) Tomas Bjerre *2019-06-09 19:17:42*
+
 **Avoid NPE**
 
 

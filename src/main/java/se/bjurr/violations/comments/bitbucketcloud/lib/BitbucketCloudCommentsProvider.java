@@ -1,7 +1,9 @@
 package se.bjurr.violations.comments.bitbucketcloud.lib;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestComments;
 import se.bjurr.bitbucketcloud.gen.model.Pullrequest;
 import se.bjurr.violations.comments.bitbucketcloud.lib.client.RestEasyClientFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
+import se.bjurr.violations.comments.lib.PatchParser;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
 
@@ -33,6 +36,10 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   private final ViolationCommentsToBitbucketCloudApi api;
   private final RepositoriesApi repositoryClient;
   private List<Diffstat> diffStat;
+
+  private String diffSpec;
+
+  private final Map<String, String> diffsPerFile = new HashMap<>();
 
   public BitbucketCloudCommentsProvider(final ViolationCommentsToBitbucketCloudApi api) {
     this.api = api;
@@ -54,13 +61,19 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
 
   @Override
   public void createSingleFileComment(
-      final ChangedFile file, final Integer line, final String commentString) {
+      final ChangedFile file, final Integer lineInFile, final String commentString) {
+
+    final String patchString = getDiff(file.getFilename());
+    final Optional<Integer> lineToCommentOpt =
+        new PatchParser(patchString).findLineInDiff(lineInFile);
+    final Integer lineToComment = lineToCommentOpt.orElse(1);
+
     final CommentContent content = new CommentContent();
     content.setRaw(commentString);
 
     final CommentInline inline = new CommentInline();
     inline.setPath(file.getFilename());
-    inline.setTo(line);
+    inline.setTo(lineToComment);
 
     final se.bjurr.bitbucketcloud.gen.model.Comment comment =
         new se.bjurr.bitbucketcloud.gen.model.Comment();
@@ -110,23 +123,6 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
         .collect(Collectors.toList());
   }
 
-  private synchronized List<Diffstat> getDiffstat() {
-    if (this.diffStat != null) {
-      return this.diffStat;
-    }
-    final Pullrequest pr =
-        repositoryClient.repositoriesUsernameRepoSlugPullrequestsPullRequestIdGet(
-            api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
-    final String spec =
-        pr.getSource().getCommit().getHash() + ".." + pr.getDestination().getCommit().getHash();
-    final Boolean ignoreWhitespace = true;
-    final PaginatedDiffstats diff =
-        repositoryClient.repositoriesUsernameRepoSlugDiffstatSpecGet(
-            api.getWorkspace(), api.getRepositorySlug(), spec, ignoreWhitespace);
-    this.diffStat = diff.getValues();
-    return this.diffStat;
-  }
-
   @Override
   public void removeComments(final List<Comment> comments) {
     final String username = api.getUsername();
@@ -144,7 +140,13 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     for (final Diffstat diffStat : getDiffstat()) {
       if (isNotDeleted(diffStat)) {
         if (isChanged(changedFile, diffStat)) {
-          if (isChangeInsideContext(line, diffStat)) {
+          if (api.shouldCommentOnlyChangedContent()) {
+            final String patchString = getDiff(changedFile.getFilename());
+            final boolean lineChanged = new PatchParser(patchString).isLineInDiff(line);
+            if (lineChanged) {
+              return true;
+            }
+          } else {
             return true;
           }
         }
@@ -187,12 +189,48 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     return diffStat.getNew() != null;
   }
 
-  private boolean isChangeInsideContext(final Integer line, final Diffstat diffStat) {
-    return Math.abs(diffStat.getLinesAdded() - line) > api.getCommentOnlyChangedContentContext();
-  }
-
   private boolean isChanged(final ChangedFile changedFile, final Diffstat diffStat) {
     return diffStat.getNew().getPath().endsWith(changedFile.getFilename())
         || changedFile.getFilename().endsWith(diffStat.getNew().getPath());
+  }
+
+  private synchronized String getDiff(final String path) {
+    if (!diffsPerFile.containsKey(path)) {
+      final String username = api.getWorkspace();
+      final String repoSlug = this.api.getRepositorySlug();
+      final String spec = getDiffSpec();
+      final Integer context = null;
+      final Boolean ignoreWhitespace = null;
+      final Boolean binary = null;
+      final String diffString =
+          repositoryClient.repositoriesUsernameRepoSlugDiffSpecGet(
+              username, spec, repoSlug, context, path, ignoreWhitespace, binary);
+      this.diffsPerFile.put(path, diffString);
+    }
+    return this.diffsPerFile.get(path);
+  }
+
+  private synchronized List<Diffstat> getDiffstat() {
+    if (this.diffStat != null) {
+      return this.diffStat;
+    }
+    final String spec = getDiffSpec();
+    final Boolean ignoreWhitespace = null;
+    final PaginatedDiffstats diff =
+        repositoryClient.repositoriesUsernameRepoSlugDiffstatSpecGet(
+            api.getWorkspace(), api.getRepositorySlug(), spec, ignoreWhitespace);
+    this.diffStat = diff.getValues();
+    return this.diffStat;
+  }
+
+  private synchronized String getDiffSpec() {
+    if (this.diffSpec == null) {
+      final Pullrequest pr =
+          repositoryClient.repositoriesUsernameRepoSlugPullrequestsPullRequestIdGet(
+              api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
+      diffSpec =
+          pr.getSource().getCommit().getHash() + ".." + pr.getDestination().getCommit().getHash();
+    }
+    return diffSpec;
   }
 }

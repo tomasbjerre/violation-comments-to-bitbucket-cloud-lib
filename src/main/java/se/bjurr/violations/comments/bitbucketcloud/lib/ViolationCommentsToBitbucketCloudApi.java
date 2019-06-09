@@ -40,7 +40,6 @@ public class ViolationCommentsToBitbucketCloudApi {
   private String workspace;
   private String repositorySlug;
   private String pullRequestId;
-  private int commentOnlyChangedContentContext;
   private boolean createCommentWithAllSingleFileComments;
   private boolean shouldCreateSingleFileComment;
   private boolean shouldKeepOldComments;
@@ -48,6 +47,8 @@ public class ViolationCommentsToBitbucketCloudApi {
   private Integer maxCommentSize;
   private Integer maxNumberOfViolations;
   private List<Violation> violations;
+
+  private boolean shouldCommentOnlyChangedContent;
 
   public ViolationCommentsToBitbucketCloudApi() {}
 
@@ -73,10 +74,6 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public String getPullRequestId() {
     return pullRequestId;
-  }
-
-  public int getCommentOnlyChangedContentContext() {
-    return commentOnlyChangedContentContext;
   }
 
   public boolean shouldCreateCommentWithAllSingleFileComments() {
@@ -107,6 +104,10 @@ public class ViolationCommentsToBitbucketCloudApi {
     return violationsLogger;
   }
 
+  public boolean shouldCommentOnlyChangedContent() {
+    return shouldCommentOnlyChangedContent;
+  }
+
   public ViolationCommentsToBitbucketCloudApi withPassword(final String password) {
     this.password = password;
     return this;
@@ -125,12 +126,6 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public ViolationCommentsToBitbucketCloudApi withViolations(final List<Violation> violations) {
     this.violations = violations;
-    return this;
-  }
-
-  public ViolationCommentsToBitbucketCloudApi withCommentOnlyChangedContentContext(
-      final int commentOnlyChangedContentContext) {
-    this.commentOnlyChangedContentContext = commentOnlyChangedContentContext;
     return this;
   }
 
@@ -180,6 +175,12 @@ public class ViolationCommentsToBitbucketCloudApi {
   public ViolationCommentsToBitbucketCloudApi withKeepOldComments(
       final boolean shouldKeepOldComments) {
     this.shouldKeepOldComments = shouldKeepOldComments;
+    return this;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withShouldCommentOnlyChangedContent(
+      final boolean shouldCommentOnlyChangedContent) {
+    this.shouldCommentOnlyChangedContent = shouldCommentOnlyChangedContent;
     return this;
   }
 

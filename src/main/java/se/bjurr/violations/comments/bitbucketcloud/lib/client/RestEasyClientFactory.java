@@ -36,7 +36,7 @@ public class RestEasyClientFactory {
             .register(new ResponseLoggingFilter(api.getViolationsLogger())) //
             .register(new BasicAuthentication(api.getUsername(), api.getPassword())) //
             .register(jaxbJsonProvider) //
-            .register(DefaultTextPlain.class) //
+            .register(new DefaultTextPlain()) //
             .build();
 
     final ResteasyWebTarget target = client.target(UriBuilder.fromPath(path));

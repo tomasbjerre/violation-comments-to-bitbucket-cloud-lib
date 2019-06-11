@@ -12,7 +12,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.BasicAuthentication;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
-import org.jboss.resteasy.plugins.providers.DefaultTextPlain;
+import org.jboss.resteasy.plugins.providers.StringTextStar;
 import se.bjurr.violations.comments.bitbucketcloud.lib.ViolationCommentsToBitbucketCloudApi;
 
 public class RestEasyClientFactory {
@@ -36,7 +36,7 @@ public class RestEasyClientFactory {
             .register(new ResponseLoggingFilter(api.getViolationsLogger())) //
             .register(new BasicAuthentication(api.getUsername(), api.getPassword())) //
             .register(jaxbJsonProvider) //
-            .register(new DefaultTextPlain()) //
+            .register(new StringTextStar()) //
             .build();
 
     final ResteasyWebTarget target = client.target(UriBuilder.fromPath(path));

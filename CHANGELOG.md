@@ -3,8 +3,23 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
-## Unreleased
+## 1.7
 ### No issue
+
+**Version from Maven Central**
+
+
+[07a322bde604eeb](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/07a322bde604eeb) Tomas Bjerre *2019-06-11 17:31:48*
+
+**DefaultTextPlain**
+
+
+[91d3d214420a2bf](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/91d3d214420a2bf) Tomas Bjerre *2019-06-09 20:15:11*
+
+**Test Handling test/plain**
+
+
+[7b898b031950be7](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/7b898b031950be7) Tomas Bjerre *2019-06-09 20:06:08*
 
 **Handling test/plain**
 

@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.8
+### No issue
+
+**MessageBodyReader for text/plain**
+
+
+[00eb55b18b4c900](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/00eb55b18b4c900) Tomas Bjerre *2019-06-11 21:00:51*
+
+
 ## 1.7
 ### No issue
 

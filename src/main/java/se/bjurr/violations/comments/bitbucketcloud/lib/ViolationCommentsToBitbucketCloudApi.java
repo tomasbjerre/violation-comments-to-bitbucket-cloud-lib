@@ -50,6 +50,8 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   private boolean shouldCommentOnlyChangedContent;
 
+  private boolean shouldCommentOnlyChangedFiles = true;
+
   public ViolationCommentsToBitbucketCloudApi() {}
 
   public static ViolationCommentsToBitbucketCloudApi violationCommentsToBitbucketCloudApi() {
@@ -187,5 +189,15 @@ public class ViolationCommentsToBitbucketCloudApi {
   public void toPullRequest() {
     final CommentsProvider commentsProvider = new BitbucketCloudCommentsProvider(this);
     createComments(violationsLogger, violations, commentsProvider);
+  }
+
+  public boolean shouldCommentOnlyChangedFiles() {
+    return shouldCommentOnlyChangedFiles;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withShouldCommentOnlyChangedFiles(
+      final boolean shouldCommentOnlyChangedFiles) {
+    this.shouldCommentOnlyChangedFiles = shouldCommentOnlyChangedFiles;
+    return this;
   }
 }

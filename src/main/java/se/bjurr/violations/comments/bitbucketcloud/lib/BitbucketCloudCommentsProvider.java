@@ -47,7 +47,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   }
 
   @Override
-  public void createCommentWithAllSingleFileComments(final String commentString) {
+  public void createComment(final String commentString) {
     final CommentContent content = new CommentContent();
     content.setRaw(commentString);
 
@@ -232,5 +232,10 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
           pr.getSource().getCommit().getHash() + ".." + pr.getDestination().getCommit().getHash();
     }
     return diffSpec;
+  }
+
+  @Override
+  public boolean shouldCommentOnlyChangedFiles() {
+    return api.shouldCommentOnlyChangedFiles();
   }
 }

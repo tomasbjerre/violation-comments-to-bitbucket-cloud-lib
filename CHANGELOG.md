@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.11
+### No issue
+
+**junit**
+
+
+[e59e8a992f9ae09](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/e59e8a992f9ae09) Tomas Bjerre *2019-06-16 16:20:42*
+
+
 ## 1.9
 ### No issue
 

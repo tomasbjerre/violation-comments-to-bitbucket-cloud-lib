@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.9
+### No issue
+
+**commentOnlyChangedFiles**
+
+
+[3ffc40190212ee1](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/3ffc40190212ee1) Tomas Bjerre *2019-06-16 07:47:34*
+
+
 ## 1.8
 ### No issue
 

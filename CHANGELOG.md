@@ -3,8 +3,14 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
-## Unreleased
+## 1.12
 ### GitHub [#1](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/issues/1) Delete Comments Endpoint passes Username in the place of Workspace  
+
+**Changing username to workspace for repositories**
+
+ * tomasbjerre/violation-comments-to-bitbucket-cloud-lib 
+
+[0bb3a5bdaf5d9a2](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/0bb3a5bdaf5d9a2) Tomas Bjerre *2020-02-02 19:10:14*
 
 **Changing username to workspace for repositories**
 

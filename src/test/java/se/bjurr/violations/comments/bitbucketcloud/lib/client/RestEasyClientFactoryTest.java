@@ -57,7 +57,7 @@ public class RestEasyClientFactoryTest {
     final String spec = "7e23c9a98019..master";
     final Boolean ignoreWhitespace = true;
     final PaginatedDiffstats actual =
-        client.repositoriesUsernameRepoSlugDiffstatSpecGet(
+        client.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
             username, repoSlug, spec, ignoreWhitespace);
 
     assertThat(actual).isNotNull();
@@ -81,7 +81,7 @@ public class RestEasyClientFactoryTest {
     final Integer context = null;
     final String path = null;
     final String actual =
-        client.repositoriesUsernameRepoSlugDiffSpecGet(
+        client.repositoriesWorkspaceRepoSlugDiffSpecGet(
             username, spec, repoSlug, context, path, ignoreWhitespace, false);
 
     assertThat(actual).isNotNull();
@@ -102,7 +102,7 @@ public class RestEasyClientFactoryTest {
     final String repoSlug = "violations-test";
     final String pullRequestId = "1";
     final PaginatedPullrequestsCommits actual =
-        client.repositoriesUsernameRepoSlugPullrequestsPullRequestIdCommitsGet(
+        client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommitsGet(
             username, pullRequestId, repoSlug);
 
     assertThat(actual).isNotNull();
@@ -124,7 +124,7 @@ public class RestEasyClientFactoryTest {
     final String repoSlug = "violations-test";
     final String pullRequestId = "1";
     final PaginatedPullrequestComments actual =
-        client.repositoriesUsernameRepoSlugPullrequestsPullRequestIdCommentsGet(
+        client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsGet(
             username, repoSlug, pullRequestId);
 
     assertThat(actual).isNotNull();
@@ -149,7 +149,7 @@ public class RestEasyClientFactoryTest {
     final Comment comment = new Comment();
     comment.setContent(content);
     final Comment created =
-        client.repositoriesUsernameRepoSlugPullrequestsPullRequestIdCommentsPost(
+        client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
             username, repoSlug, pullRequestId, comment);
     System.out.println("created: " + created);
   }
@@ -166,7 +166,7 @@ public class RestEasyClientFactoryTest {
     final String username = "tomasbjerre";
     final String repoSlug = "violations-test";
     final String pullRequestId = "1";
-    client.repositoriesUsernameRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
+    client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
         username, pullRequestId, commentId, repoSlug);
   }
 }

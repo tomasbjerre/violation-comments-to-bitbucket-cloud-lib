@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.13
+### No issue
+
+**Switched from using username to workspace while removing comment**
+
+
+[1b5ba6618f2aea5](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/1b5ba6618f2aea5) michal-pc *2020-02-16 16:16:15*
+
+
 ## 1.12
 ### GitHub [#1](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/issues/1) Delete Comments Endpoint passes Username in the place of Workspace  
 

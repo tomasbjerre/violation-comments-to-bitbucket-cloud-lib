@@ -125,14 +125,11 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
 
   @Override
   public void removeComments(final List<Comment> comments) {
-    final String username = api.getUsername();
-    final String pullRequestId = api.getPullRequestId();
-    final String repoSlug = api.getRepositorySlug();
     for (final Comment comment : comments) {
       final String commentId = comment.getIdentifier();
       repositoryClient
           .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
-              username, pullRequestId, commentId, repoSlug);
+              api.getWorkspace(), api.getPullRequestId(), commentId, api.getRepositorySlug());
     }
   }
 

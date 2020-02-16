@@ -63,7 +63,6 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   public void createSingleFileComment(
       final ChangedFile file, final Integer lineInFile, final String commentString) {
 
-
     final CommentContent content = new CommentContent();
     content.setRaw(commentString);
 

@@ -63,16 +63,14 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   public void createSingleFileComment(
       final ChangedFile file, final Integer lineInFile, final String commentString) {
 
-    final String patchString = getDiff(file.getFilename());
-    final Optional<Integer> lineToCommentOpt =
-        new PatchParser(patchString).findLineInDiff(lineInFile);
-    final Integer lineToComment = lineToCommentOpt.orElse(1);
 
     final CommentContent content = new CommentContent();
     content.setRaw(commentString);
 
     final CommentInline inline = new CommentInline();
     inline.setPath(file.getFilename());
+
+    final Integer lineToComment = Optional.ofNullable(lineInFile).orElse(1);
     inline.setTo(lineToComment);
 
     final se.bjurr.bitbucketcloud.gen.model.Comment comment =

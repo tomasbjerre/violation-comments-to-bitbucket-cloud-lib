@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.14
+### No issue
+
+**Fix destination line for comment**
+
+
+[1ade8a9ca2d36ee](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/1ade8a9ca2d36ee) michal-luszczuk *2020-02-16 16:49:38*
+
+
 ## 1.13
 ### No issue
 

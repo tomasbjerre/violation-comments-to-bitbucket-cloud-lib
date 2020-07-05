@@ -3,6 +3,15 @@
 
 Changelog of Violation comments to bitbucket cloud lib.
 
+## 1.15
+### No issue
+
+**New: custom logging in violations-lib**
+
+
+[8c6a3836529c105](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/8c6a3836529c105) Tomas Bjerre *2020-07-05 12:47:57*
+
+
 ## 1.14
 ### No issue
 

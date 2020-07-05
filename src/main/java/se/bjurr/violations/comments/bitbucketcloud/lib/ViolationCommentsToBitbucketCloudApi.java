@@ -4,12 +4,12 @@ import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import org.slf4j.LoggerFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
-import se.bjurr.violations.comments.lib.ViolationsLogger;
+import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.Violation;
 
 public class ViolationCommentsToBitbucketCloudApi {
@@ -46,7 +46,7 @@ public class ViolationCommentsToBitbucketCloudApi {
   private String commentTemplate;
   private Integer maxCommentSize;
   private Integer maxNumberOfViolations;
-  private List<Violation> violations;
+  private Set<Violation> violations;
 
   private boolean shouldCommentOnlyChangedContent;
 
@@ -59,55 +59,55 @@ public class ViolationCommentsToBitbucketCloudApi {
   }
 
   public String getUsername() {
-    return username;
+    return this.username;
   }
 
   public String getPassword() {
-    return password;
+    return this.password;
   }
 
   public String getWorkspace() {
-    return workspace;
+    return this.workspace;
   }
 
   public String getRepositorySlug() {
-    return repositorySlug;
+    return this.repositorySlug;
   }
 
   public String getPullRequestId() {
-    return pullRequestId;
+    return this.pullRequestId;
   }
 
   public boolean shouldCreateCommentWithAllSingleFileComments() {
-    return createCommentWithAllSingleFileComments;
+    return this.createCommentWithAllSingleFileComments;
   }
 
   public boolean shouldCreateSingleFileComment() {
-    return shouldCreateSingleFileComment;
+    return this.shouldCreateSingleFileComment;
   }
 
   public boolean shouldKeepOldComments() {
-    return shouldKeepOldComments;
+    return this.shouldKeepOldComments;
   }
 
   public Optional<String> findCommentTemplate() {
-    return Optional.ofNullable(commentTemplate);
+    return Optional.ofNullable(this.commentTemplate);
   }
 
   public Integer getMaxCommentSize() {
-    return maxCommentSize;
+    return this.maxCommentSize;
   }
 
   public Integer getMaxNumberOfViolations() {
-    return maxNumberOfViolations;
+    return this.maxNumberOfViolations;
   }
 
   public ViolationsLogger getViolationsLogger() {
-    return violationsLogger;
+    return this.violationsLogger;
   }
 
   public boolean shouldCommentOnlyChangedContent() {
-    return shouldCommentOnlyChangedContent;
+    return this.shouldCommentOnlyChangedContent;
   }
 
   public ViolationCommentsToBitbucketCloudApi withPassword(final String password) {
@@ -126,7 +126,7 @@ public class ViolationCommentsToBitbucketCloudApi {
     return this;
   }
 
-  public ViolationCommentsToBitbucketCloudApi withViolations(final List<Violation> violations) {
+  public ViolationCommentsToBitbucketCloudApi withViolations(final Set<Violation> violations) {
     this.violations = violations;
     return this;
   }
@@ -188,11 +188,11 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public void toPullRequest() {
     final CommentsProvider commentsProvider = new BitbucketCloudCommentsProvider(this);
-    createComments(violationsLogger, violations, commentsProvider);
+    createComments(this.violationsLogger, this.violations, commentsProvider);
   }
 
   public boolean shouldCommentOnlyChangedFiles() {
-    return shouldCommentOnlyChangedFiles;
+    return this.shouldCommentOnlyChangedFiles;
   }
 
   public ViolationCommentsToBitbucketCloudApi withShouldCommentOnlyChangedFiles(

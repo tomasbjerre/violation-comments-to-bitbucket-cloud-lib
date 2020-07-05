@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
-import se.bjurr.violations.comments.lib.ViolationsLogger;
+import se.bjurr.violations.lib.ViolationsLogger;
 
 public class ResponseLoggingFilter implements ClientResponseFilter {
   private final ViolationsLogger logger;
@@ -25,13 +25,13 @@ public class ResponseLoggingFilter implements ClientResponseFilter {
     final String statusMsg = responseContext.getStatusInfo().getReasonPhrase();
     final String msg = status + " " + statusMsg;
     if (status >= 200 && status <= 299) {
-      logger.log(Level.FINE, "\n<< " + msg + "\n\n");
+      this.logger.log(Level.FINE, "\n<< " + msg + "\n\n");
     } else {
       final String entityString =
           new BufferedReader(new InputStreamReader(responseContext.getEntityStream()))
               .lines()
               .collect(Collectors.joining("\n"));
-      logger.log(Level.SEVERE, "\n<< " + msg + " " + entityString + "\n\n");
+      this.logger.log(Level.SEVERE, "\n<< " + msg + " " + entityString + "\n\n");
     }
   }
 }

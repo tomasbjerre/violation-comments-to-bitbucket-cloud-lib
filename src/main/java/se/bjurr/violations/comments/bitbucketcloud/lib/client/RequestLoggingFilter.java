@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
-import se.bjurr.violations.comments.lib.ViolationsLogger;
+import se.bjurr.violations.lib.ViolationsLogger;
 
 public class RequestLoggingFilter implements ClientRequestFilter {
   private final ViolationsLogger logger;
@@ -25,6 +25,6 @@ public class RequestLoggingFilter implements ClientRequestFilter {
             + " "
             + (requestContext.getEntity() == null ? "" : "\n" + requestContext.getEntity())
             + "\n\n";
-    logger.log(Level.FINE, msg);
+    this.logger.log(Level.FINE, msg);
   }
 }

@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
-import org.junit.Test;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
 import se.bjurr.bitbucketcloud.gen.model.Comment;
 import se.bjurr.bitbucketcloud.gen.model.CommentContent;
@@ -31,7 +30,7 @@ public class RestEasyClientFactoryTest {
     this.password = new String(Files.readAllBytes(path), StandardCharsets.UTF_8).trim();
   }
 
-  @Test
+  // @Test
   public void doTest() {
     testGetDiff();
     testGetDiffspec();

@@ -17,9 +17,9 @@ import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestComments;
 import se.bjurr.bitbucketcloud.gen.model.Pullrequest;
 import se.bjurr.violations.comments.bitbucketcloud.lib.client.RestEasyClientFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
-import se.bjurr.violations.comments.lib.PatchParser;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
 import se.bjurr.violations.comments.lib.model.Comment;
+import se.bjurr.violations.lib.util.PatchParserUtil;
 
 public class BitbucketCloudCommentsProvider implements CommentsProvider {
   private static final Function<
@@ -137,7 +137,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
         if (isChanged(changedFile, diffStat)) {
           if (api.shouldCommentOnlyChangedContent()) {
             final String patchString = getDiff(changedFile.getFilename());
-            final boolean lineChanged = new PatchParser(patchString).isLineInDiff(line);
+            final boolean lineChanged = new PatchParserUtil(patchString).isLineInDiff(line);
             if (lineChanged) {
               return true;
             }

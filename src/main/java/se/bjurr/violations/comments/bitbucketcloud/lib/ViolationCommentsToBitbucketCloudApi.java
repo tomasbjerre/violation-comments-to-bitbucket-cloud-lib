@@ -37,6 +37,11 @@ public class ViolationCommentsToBitbucketCloudApi {
    */
   private String password;
 
+  /**
+   * https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/
+   */
+  private String apiToken;
+
   private String workspace;
   private String repositorySlug;
   private String pullRequestId;
@@ -64,6 +69,10 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public String getPassword() {
     return this.password;
+  }
+
+  public String getApiToken() {
+    return this.apiToken;
   }
 
   public String getWorkspace() {
@@ -117,6 +126,11 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public ViolationCommentsToBitbucketCloudApi withUsername(final String username) {
     this.username = username;
+    return this;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withApiToken(final String apiToken) {
+    this.apiToken = apiToken;
     return this;
   }
 

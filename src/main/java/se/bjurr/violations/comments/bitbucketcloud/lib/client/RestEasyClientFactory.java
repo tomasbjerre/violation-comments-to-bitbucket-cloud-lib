@@ -34,7 +34,7 @@ public class RestEasyClientFactory {
             .connectionCheckoutTimeout(10, SECONDS) //
             .register(new RequestLoggingFilter(api.getViolationsLogger())) //
             .register(new ResponseLoggingFilter(api.getViolationsLogger())) //
-            .register(new BasicAuthentication(api.getUsername(), api.getPassword())) //
+            .register(api.getApiToken() != null ? new ApiTokenAuthentication(api.getApiToken()) : new BasicAuthentication(api.getUsername(), api.getPassword())) //
             .register(jaxbJsonProvider) //
             .register(new StringTextStar()) //
             .build();

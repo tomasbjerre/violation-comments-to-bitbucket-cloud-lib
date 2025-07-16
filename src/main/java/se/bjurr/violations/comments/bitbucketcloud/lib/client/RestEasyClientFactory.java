@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.BasicAuthentication;
@@ -34,7 +34,10 @@ public class RestEasyClientFactory {
             .connectionCheckoutTimeout(10, SECONDS) //
             .register(new RequestLoggingFilter(api.getViolationsLogger())) //
             .register(new ResponseLoggingFilter(api.getViolationsLogger())) //
-            .register(api.getApiToken() != null ? new ApiTokenAuthentication(api.getApiToken()) : new BasicAuthentication(api.getUsername(), api.getPassword())) //
+            .register(
+                api.getApiToken() != null
+                    ? new ApiTokenAuthentication(api.getApiToken())
+                    : new BasicAuthentication(api.getUsername(), api.getPassword())) //
             .register(jaxbJsonProvider) //
             .register(new StringTextStar()) //
             .build();

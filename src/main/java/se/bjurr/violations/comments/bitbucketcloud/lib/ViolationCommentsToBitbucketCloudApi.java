@@ -31,15 +31,14 @@ public class ViolationCommentsToBitbucketCloudApi {
       };
 
   private String username;
+
   /**
    * Note that you can create application password here:
    * https://bitbucket.org/account/user/tomasbjerre/app-passwords
    */
   private String password;
 
-  /**
-   * https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/
-   */
+  /** https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/ */
   private String apiToken;
 
   private String workspace;

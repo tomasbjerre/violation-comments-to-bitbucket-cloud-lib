@@ -3,6 +3,7 @@ package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientRequestContext;
@@ -27,10 +28,12 @@ public class ResponseLoggingFilter implements ClientResponseFilter {
     if (status >= 200 && status <= 299) {
       this.logger.log(Level.FINE, "\n<< " + msg + "\n\n");
     } else {
-      final String entityString =
-          new BufferedReader(new InputStreamReader(responseContext.getEntityStream()))
-              .lines()
-              .collect(Collectors.joining("\n"));
+      String entityString = null;
+      try (var br =
+          new BufferedReader(
+              new InputStreamReader(responseContext.getEntityStream(), StandardCharsets.UTF_8))) {
+        entityString = br.lines().collect(Collectors.joining("\n"));
+      }
       this.logger.log(Level.SEVERE, "\n<< " + msg + " " + entityString + "\n\n");
     }
   }

@@ -88,9 +88,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
             api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
 
     final List<Comment> comments =
-        activities
-            .getValues()
-            .stream()
+        activities.getValues().stream()
             .map(it -> it.getComment())
             .filter(it -> it != null)
             .map(COMMENT_TO_COMMENT)
@@ -108,8 +106,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   @Override
   public List<ChangedFile> getFiles() {
     final List<Diffstat> values = getDiffstat();
-    return values
-        .stream()
+    return values.stream()
         .filter((it) -> isNotDeleted(it))
         .map(
             (it) -> {

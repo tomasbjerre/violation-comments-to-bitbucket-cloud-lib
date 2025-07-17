@@ -9,11 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
-import se.bjurr.bitbucketcloud.gen.model.Comment;
-import se.bjurr.bitbucketcloud.gen.model.CommentContent;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedDiffstats;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestComments;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestsCommits;
+import se.bjurr.bitbucketcloud.gen.model.*;
+import se.bjurr.violations.comments.bitbucketcloud.lib.BitbucketCloudCommentsProvider;
 import se.bjurr.violations.comments.bitbucketcloud.lib.ViolationCommentsToBitbucketCloudApi;
 
 public class RestEasyClientFactoryTest {
@@ -106,7 +103,8 @@ public class RestEasyClientFactoryTest {
 
     assertThat(actual).isNotNull();
     assertThat(actual.getValues()).hasSize(2);
-    assertThat(actual.getValues().get(0).getHash())
+    assertThat(
+            BitbucketCloudCommentsProvider.getOrderedCommits(actual.getValues()).get(0).getHash())
         .isEqualTo("a31d1b70c972c9476346232909a739b0416c4328");
   }
 
@@ -128,7 +126,8 @@ public class RestEasyClientFactoryTest {
 
     assertThat(actual).isNotNull();
     assertThat(actual.getValues()).isNotEmpty();
-    return actual.getValues().get(0).getId() + "";
+    return BitbucketCloudCommentsProvider.getOrderedComments(actual.getValues()).get(0).getId()
+        + "";
   }
 
   private void testCreateCommentInPr() {

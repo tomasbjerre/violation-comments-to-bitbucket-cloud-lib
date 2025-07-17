@@ -1,14 +1,14 @@
 package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientResponseContext;
+import jakarta.ws.rs.client.ClientResponseFilter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.client.ClientResponseFilter;
 import se.bjurr.violations.lib.ViolationsLogger;
 
 public class ResponseLoggingFilter implements ClientResponseFilter {

@@ -5,7 +5,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -25,8 +24,8 @@ public class RestEasyClientFactory {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     final JacksonJaxbJsonProvider jaxbJsonProvider =
         new JacksonJaxbJsonProvider(mapper, JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS);
-    jaxbJsonProvider.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    jaxbJsonProvider.enable(SerializationFeature.INDENT_OUTPUT);
+    // jaxbJsonProvider.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    // jaxbJsonProvider.enable(SerializationFeature.INDENT_OUTPUT);
     final ResteasyClient client =
         new ResteasyClientBuilderImpl() //
             .connectTimeout(10, SECONDS) //

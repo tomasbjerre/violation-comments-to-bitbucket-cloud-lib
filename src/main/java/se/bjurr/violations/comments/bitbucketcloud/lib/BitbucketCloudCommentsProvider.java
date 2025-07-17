@@ -1,20 +1,10 @@
 package se.bjurr.violations.comments.bitbucketcloud.lib;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
-import se.bjurr.bitbucketcloud.gen.model.CommentContent;
-import se.bjurr.bitbucketcloud.gen.model.CommentInline;
-import se.bjurr.bitbucketcloud.gen.model.Diffstat;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedActivities;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedDiffstats;
-import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestComments;
-import se.bjurr.bitbucketcloud.gen.model.Pullrequest;
+import se.bjurr.bitbucketcloud.gen.model.*;
 import se.bjurr.violations.comments.bitbucketcloud.lib.client.RestEasyClientFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
@@ -211,7 +201,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     final PaginatedDiffstats diff =
         repositoryClient.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
             api.getWorkspace(), api.getRepositorySlug(), spec, ignoreWhitespace);
-    this.diffStat = diff.getValues();
+    this.diffStat = List.copyOf(diff.getValues());
     return this.diffStat;
   }
 
@@ -229,5 +219,18 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   @Override
   public boolean shouldCommentOnlyChangedFiles() {
     return api.shouldCommentOnlyChangedFiles();
+  }
+
+  public static List<se.bjurr.bitbucketcloud.gen.model.Comment> getOrderedComments(
+      Set<se.bjurr.bitbucketcloud.gen.model.Comment> values) {
+    return values.stream()
+        .sorted((a, b) -> a.getCreatedOn().compareTo(b.getCreatedOn()))
+        .collect(Collectors.toList());
+  }
+
+  public static List<Commit> getOrderedCommits(Set<Commit> values) {
+    return values.stream()
+        .sorted((a, b) -> a.getDate().compareTo(b.getDate()))
+        .collect(Collectors.toList());
   }
 }

@@ -1,9 +1,9 @@
 package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
 import java.io.IOException;
 import java.util.logging.Level;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
 import se.bjurr.violations.lib.ViolationsLogger;
 
 public class RequestLoggingFilter implements ClientRequestFilter {

@@ -10,6 +10,7 @@ dependencies {
 	api 'org.jboss.resteasy:resteasy-client:6.2.12.Final'
 	api 'org.jboss.resteasy:resteasy-multipart-provider:6.2.12.Final'
 	api 'org.slf4j:slf4j-simple:2.0.17'
+	api 'javax.ws.rs:javax.ws.rs-api:2.1.1'
 
 	testImplementation 'junit:junit:4.13.2'
 	testImplementation 'org.assertj:assertj-core:3.27.3'

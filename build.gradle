@@ -8,7 +8,7 @@ dependencies {
 	api 'se.bjurr.violations:violation-comments-lib:1.109.1'
 	api 'se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api:2.0.0'
 	api 'org.jboss.resteasy:resteasy-client:6.2.12.Final'
-	api 'org.jboss.resteasy:resteasy-jaxrs:3.15.6.Final'
+	api 'org.jboss.resteasy:resteasy-multipart-provider:6.2.12.Final'
 	api 'org.slf4j:slf4j-simple:2.0.17'
 
 	testImplementation 'junit:junit:4.13.2'

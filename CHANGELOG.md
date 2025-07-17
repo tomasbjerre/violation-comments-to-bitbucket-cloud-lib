@@ -1,3 +1,9 @@
+## 2.0.3 (2025-07-17)
+
+### Bug Fixes
+
+-  missing MessageBodyReader ([c54fb](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/c54fbaadb8f2025) Tomas Bjerre)  
+
 ## 2.0.2 (2025-07-17)
 
 ### Bug Fixes

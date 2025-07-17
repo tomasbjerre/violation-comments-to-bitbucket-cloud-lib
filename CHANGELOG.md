@@ -1,3 +1,9 @@
+## 2.0.0 (2025-07-17)
+
+### Breaking changes
+
+-  migrating to jakarta namespace ([be220](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/be220c6802030e5) Tomas Bjerre)  
+
 ## 1.17.2 (2025-07-17)
 
 ### Bug Fixes

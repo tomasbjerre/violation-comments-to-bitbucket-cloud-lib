@@ -1,3 +1,9 @@
+## 1.17.2 (2025-07-17)
+
+### Bug Fixes
+
+-  trying to use new Sonatype OSS API ([9ec6a](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/9ec6a1562cb0eb5) Tomas Bjerre)  
+
 
 # violation-comments-to-bitbucket-cloud-lib changelog
 

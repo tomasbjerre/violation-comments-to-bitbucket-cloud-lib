@@ -7,7 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
 import se.bjurr.bitbucketcloud.gen.model.*;
 import se.bjurr.violations.comments.bitbucketcloud.lib.BitbucketCloudCommentsProvider;
@@ -18,7 +19,7 @@ public class RestEasyClientFactoryTest {
   private static final String COMMENT_CONTENT_STR = "asdasd";
   private String password;
 
-  @Before
+  @BeforeEach
   public void before() throws IOException {
     final Path path = Paths.get("/home/bjerre/bitbucket-cloud-password.txt");
     if (!path.toFile().exists()) {
@@ -26,6 +27,9 @@ public class RestEasyClientFactoryTest {
     }
     this.password = new String(Files.readAllBytes(path), StandardCharsets.UTF_8).trim();
   }
+
+  @Test
+  public void testNothing() {}
 
   // @Test
   public void doTest() {

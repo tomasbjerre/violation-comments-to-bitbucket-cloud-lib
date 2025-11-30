@@ -5,7 +5,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -16,16 +18,22 @@ import se.bjurr.violations.comments.bitbucketcloud.lib.ViolationCommentsToBitbuc
 
 public class RestEasyClientFactory {
   public static <T> T create(final Class<T> clazz, final ViolationCommentsToBitbucketCloudApi api) {
-    final String path = "https://api.bitbucket.org/2.0";
+    return create(clazz, api, "https://api.bitbucket.org/2.0");
+  }
 
+  public static <T> T create(
+      final Class<T> clazz, final ViolationCommentsToBitbucketCloudApi api, final String baseUrl) {
     final ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
     mapper.setSerializationInclusion(Include.NON_NULL);
     mapper.setSerializationInclusion(Include.NON_DEFAULT);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    final JacksonJaxbJsonProvider jaxbJsonProvider =
-        new JacksonJaxbJsonProvider(mapper, JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS);
-    // jaxbJsonProvider.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    // jaxbJsonProvider.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
+    mapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
+    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+    final JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
+
     final ResteasyClient client =
         new ResteasyClientBuilderImpl() //
             .connectTimeout(10, SECONDS) //
@@ -37,11 +45,11 @@ public class RestEasyClientFactory {
                 api.getApiToken() != null
                     ? new ApiTokenAuthentication(api.getApiToken())
                     : new BasicAuthentication(api.getUsername(), api.getPassword())) //
-            .register(jaxbJsonProvider) //
+            .register(jsonProvider) //
             .register(new StringTextStar()) //
             .build();
 
-    final ResteasyWebTarget target = client.target(UriBuilder.fromPath(path));
+    final ResteasyWebTarget target = client.target(UriBuilder.fromPath(baseUrl));
     final T proxy = target.proxy(clazz);
     return proxy;
   }

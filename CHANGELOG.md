@@ -1,3 +1,12 @@
+## 2.0.4 (2025-11-30)
+
+### Bug Fixes
+
+-  Cannot parse JSON responses since 1.35.x ([a8407](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/a84077b33b94903) Tomas Bjerre)  
+
+### Dependency updates
+
+- gradle 9 ([eb794](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/eb7945eb6951f9d) Tomas Bjerre)  
 ## 2.0.3 (2025-07-17)
 
 ### Bug Fixes

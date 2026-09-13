@@ -28,7 +28,7 @@ public class ResponseLoggingFilter implements ClientResponseFilter {
     if (status >= 200 && status <= 299) {
       this.logger.log(Level.FINE, "\n<< " + msg + "\n\n");
     } else {
-      String entityString = null;
+      final String entityString;
       try (var br =
           new BufferedReader(
               new InputStreamReader(responseContext.getEntityStream(), StandardCharsets.UTF_8))) {

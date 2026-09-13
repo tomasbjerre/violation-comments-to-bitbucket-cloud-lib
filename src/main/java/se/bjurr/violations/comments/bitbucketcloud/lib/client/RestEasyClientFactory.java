@@ -34,7 +34,7 @@ public class RestEasyClientFactory {
 
     final JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
 
-    final ResteasyClient client =
+    final ResteasyClient client = // NOPMD must stay open to back the returned proxy
         new ResteasyClientBuilderImpl() //
             .connectTimeout(10, SECONDS) //
             .readTimeout(10, SECONDS) //

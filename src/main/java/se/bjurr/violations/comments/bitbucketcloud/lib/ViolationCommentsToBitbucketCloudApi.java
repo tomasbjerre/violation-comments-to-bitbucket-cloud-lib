@@ -2,6 +2,7 @@ package se.bjurr.violations.comments.bitbucketcloud.lib;
 
 import static se.bjurr.violations.comments.lib.CommentsCreator.createComments;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class ViolationCommentsToBitbucketCloudApi {
   private ViolationsLogger violationsLogger =
       new ViolationsLogger() {
         @Override
+        @SuppressFBWarnings(
+            value = "INFORMATION_EXPOSURE_THROUGH_AN_ERROR_MESSAGE",
+            justification = "Stack trace is written to an in-memory buffer, then logged via slf4j")
         public void log(final Level level, final String string, final Throwable t) {
           final StringWriter sw = new StringWriter();
           t.printStackTrace(new PrintWriter(sw));

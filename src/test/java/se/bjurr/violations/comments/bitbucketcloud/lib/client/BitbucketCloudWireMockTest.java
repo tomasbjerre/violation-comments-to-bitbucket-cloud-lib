@@ -168,10 +168,12 @@ public class BitbucketCloudWireMockTest {
     // Then
     assertThat(diffstats).isNotNull();
     assertThat(diffstats.getValues()).hasSize(2);
-    assertThat(diffstats.getValues().iterator().next().getStatus())
-        .isEqualTo(Diffstat.StatusEnum.MODIFIED);
-    assertThat(diffstats.getValues().iterator().next().getNew().getPath())
-        .isEqualTo("src/main/java/Test.java");
+    final Diffstat modifiedDiffstat =
+        diffstats.getValues().stream()
+            .filter(diffstat -> diffstat.getStatus() == Diffstat.StatusEnum.MODIFIED)
+            .findFirst()
+            .orElseThrow();
+    assertThat(modifiedDiffstat.getNew().getPath()).isEqualTo("src/main/java/Test.java");
   }
 
   @Test
@@ -487,7 +489,9 @@ public class BitbucketCloudWireMockTest {
     // Then
     assertThat(commits).isNotNull();
     assertThat(commits.getValues()).hasSize(2);
-    assertThat(commits.getValues().iterator().next().getHash())
-        .isEqualTo("a31d1b70c972c9476346232909a739b0416c4328");
+    assertThat(commits.getValues())
+        .extracting(commit -> commit.getHash())
+        .containsExactlyInAnyOrder(
+            "a31d1b70c972c9476346232909a739b0416c4328", "b42e2c81d083d0587457343010b850c1527d5439");
   }
 }

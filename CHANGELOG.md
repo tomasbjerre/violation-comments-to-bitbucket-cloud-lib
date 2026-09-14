@@ -1,3 +1,25 @@
+## 2.1.0 (2026-09-14)
+
+### Features
+
+-  **ci**  add draft/publish release workflow ([d7dcf](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/d7dcf21f7de3af9) Tomas Bjerre)  
+
+### Dependency updates
+
+- update gradle wrapper to 9.7.1 ([ce200](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/ce2003a3fb963e5) Tomas Bjerre)  
+### Other changes
+
+**Superseded by centralized publish-draft-releases.yaml in .github**
+
+
+[adfc2](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/adfc27b6df27211) Tomas Bjerre *2026-09-14 19:58:50*
+
+**Auto-publish pending draft releases weekly**
+
+
+[cb8ca](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/cb8ca27f9242680) Tomas Bjerre *2026-09-14 19:47:48*
+
+
 ## 2.0.5 (2026-09-14)
 
 ### Other changes

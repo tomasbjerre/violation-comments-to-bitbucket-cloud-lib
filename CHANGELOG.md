@@ -1,3 +1,17 @@
+## 2.0.5 (2026-09-14)
+
+### Other changes
+
+**Fix broken Maven Central badge in README**
+
+* maven-badges.herokuapp.com is down; switch to img.shields.io badge 
+* linking to search.maven.org. 
+* Co-Authored-By: Claude Sonnet 5 &lt;noreply@anthropic.com&gt; 
+* Claude-Session: https://claude.ai/code/session_011PGVf85V1VhJj4oM3rKh7b 
+
+[fb24e](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/fb24e46d3d3a5fc) Tomas Bjerre *2026-09-13 08:52:01*
+
+
 ## 2.0.4 (2025-11-30)
 
 ### Bug Fixes

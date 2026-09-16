@@ -3,11 +3,6 @@ package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 import jakarta.ws.rs.core.UriBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -15,6 +10,11 @@ import org.jboss.resteasy.client.jaxrs.internal.BasicAuthentication;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.StringTextStar;
 import se.bjurr.violations.comments.bitbucketcloud.lib.ViolationCommentsToBitbucketCloudApi;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.EnumFeature;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 public class RestEasyClientFactory {
   public static <T> T create(final Class<T> clazz, final ViolationCommentsToBitbucketCloudApi api) {
@@ -23,14 +23,22 @@ public class RestEasyClientFactory {
 
   public static <T> T create(
       final Class<T> clazz, final ViolationCommentsToBitbucketCloudApi api, final String baseUrl) {
-    final ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-    mapper.setSerializationInclusion(Include.NON_NULL);
-    mapper.setSerializationInclusion(Include.NON_DEFAULT);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
-    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    // Jackson 3: java.time (de)serialization is built into jackson-databind, no separate
+    // JavaTimeModule needed; ObjectMapper is immutable, so all configuration happens on the
+    // builder rather than via mutator calls.
+    final JsonMapper mapper =
+        JsonMapper.builder()
+            .changeDefaultPropertyInclusion(v -> v.withValueInclusion(Include.NON_DEFAULT))
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+            .disable(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
+            // The Bitbucket Cloud API returns enum values (e.g. diffstat status "type changed")
+            // that aren't in the generated client's enums, since even Atlassian's own published
+            // spec doesn't document them. Read as null rather than throwing, since callers here
+            // never rely on getting every enum constant resolved.
+            .enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+            .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .build();
 
     final JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
 

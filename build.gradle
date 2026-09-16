@@ -16,7 +16,7 @@ dependencies {
 	api "se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api:3.0.0"
 	api "org.jboss.resteasy:resteasy-client:7.0.4.Final"
 	api "org.jboss.resteasy:resteasy-multipart-provider:7.0.4.Final"
-	api "org.jboss.resteasy:resteasy-jackson2-provider:7.0.4.Final"
+	api "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:3.0.0-rc4"
 	api "org.slf4j:slf4j-simple:2.0.19"
 	api 'javax.ws.rs:javax.ws.rs-api:2.1.1'
 
@@ -29,4 +29,14 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+configurations.all {
+	resolutionStrategy {
+		// violations-lib 2.0.x/2.1.x shaded jackson-databind under its original package name,
+		// colliding with the real tools.jackson.core:jackson-databind on the classpath. Force the
+		// newer version, which no longer shades it, until violation-comments-lib bumps its own
+		// dependency.
+		force "se.bjurr.violations:violations-lib:2.2.0"
+	}
 }

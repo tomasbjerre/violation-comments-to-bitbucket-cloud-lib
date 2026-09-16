@@ -177,6 +177,57 @@ public class BitbucketCloudWireMockTest {
   }
 
   @Test
+  public void testGetDiffstat_ToleratesUnknownStatusValue() {
+    // Given: Bitbucket Cloud can return a "type changed" status (e.g. a symlink becoming a
+    // regular file) that isn't in the generated enum, since even Atlassian's own published spec
+    // doesn't document it (see tomasbjerre/violation-comments-to-bitbucket-cloud-command-line#5).
+    final String diffstatJson =
+        """
+        {
+          "values": [
+            {
+              "type": "diffstat",
+              "status": "type changed",
+              "lines_removed": 0,
+              "lines_added": 0,
+              "old": {
+                "type": "commit_file",
+                "path": "src/main/java/Test.java"
+              },
+              "new": {
+                "type": "commit_file",
+                "path": "src/main/java/Test.java"
+              }
+            }
+          ],
+          "page": 1,
+          "pagelen": 10,
+          "size": 1
+        }
+        """;
+
+    wireMockServer.stubFor(
+        get(urlPathEqualTo("/repositories/testworkspace/testrepo/diffstat/abc123..def456"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(diffstatJson)));
+
+    // When
+    final PaginatedDiffstats diffstats =
+        client.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
+            "testworkspace", "testrepo", "abc123..def456", null);
+
+    // Then: deserialization doesn't throw, status is null since it isn't a recognized enum
+    // value, but the fields callers actually use are still populated correctly.
+    assertThat(diffstats.getValues()).hasSize(1);
+    final Diffstat diffstat = diffstats.getValues().iterator().next();
+    assertThat(diffstat.getStatus()).isNull();
+    assertThat(diffstat.getNew().getPath()).isEqualTo("src/main/java/Test.java");
+  }
+
+  @Test
   public void testGetDiff() {
     // Given
     final String diffContent =

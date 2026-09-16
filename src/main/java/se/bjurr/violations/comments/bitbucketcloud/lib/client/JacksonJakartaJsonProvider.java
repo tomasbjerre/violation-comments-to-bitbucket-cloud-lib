@@ -2,7 +2,6 @@ package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
@@ -13,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Locale;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
@@ -39,7 +39,7 @@ public class JacksonJakartaJsonProvider
     return mediaType != null
         && "application".equalsIgnoreCase(mediaType.getType())
         && (mediaType.getSubtype().equalsIgnoreCase("json")
-            || mediaType.getSubtype().toLowerCase().endsWith("+json"));
+            || mediaType.getSubtype().toLowerCase(Locale.ROOT).endsWith("+json"));
   }
 
   @Override
@@ -59,7 +59,7 @@ public class JacksonJakartaJsonProvider
       final MediaType mediaType,
       final MultivaluedMap<String, String> httpHeaders,
       final InputStream entityStream)
-      throws IOException, WebApplicationException {
+      throws IOException {
     final Type resolvedType = genericType != null ? genericType : type;
     return this.mapper.readValue(entityStream, this.mapper.constructType(resolvedType));
   }
@@ -82,7 +82,7 @@ public class JacksonJakartaJsonProvider
       final MediaType mediaType,
       final MultivaluedMap<String, Object> httpHeaders,
       final OutputStream entityStream)
-      throws IOException, WebApplicationException {
+      throws IOException {
     this.mapper.writeValue(entityStream, entity);
   }
 }

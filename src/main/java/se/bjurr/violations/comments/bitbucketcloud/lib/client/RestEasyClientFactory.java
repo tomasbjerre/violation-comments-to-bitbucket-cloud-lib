@@ -14,7 +14,6 @@ import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 public class RestEasyClientFactory {
   public static <T> T create(final Class<T> clazz, final ViolationCommentsToBitbucketCloudApi api) {
@@ -40,7 +39,7 @@ public class RestEasyClientFactory {
             .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
             .build();
 
-    final JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
+    final JacksonJakartaJsonProvider jsonProvider = new JacksonJakartaJsonProvider(mapper);
 
     final ResteasyClient client = // NOPMD must stay open to back the returned proxy
         new ResteasyClientBuilderImpl() //

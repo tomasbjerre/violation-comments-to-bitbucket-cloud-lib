@@ -16,7 +16,7 @@ dependencies {
 	api "se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api:3.0.0"
 	api "org.jboss.resteasy:resteasy-client:7.0.4.Final"
 	api "org.jboss.resteasy:resteasy-multipart-provider:7.0.4.Final"
-	api "org.jboss.resteasy:resteasy-jackson2-provider:7.0.4.Final"
+	api "tools.jackson.core:jackson-databind:3.2.2"
 	api "org.slf4j:slf4j-simple:2.0.19"
 	api 'javax.ws.rs:javax.ws.rs-api:2.1.1'
 

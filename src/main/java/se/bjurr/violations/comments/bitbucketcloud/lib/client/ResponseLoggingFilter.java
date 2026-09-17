@@ -3,12 +3,10 @@ package se.bjurr.violations.comments.bitbucketcloud.lib.client;
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientResponseContext;
 import jakarta.ws.rs.client.ClientResponseFilter;
-import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import se.bjurr.violations.lib.ViolationsLogger;
 
 public class ResponseLoggingFilter implements ClientResponseFilter {
@@ -28,13 +26,15 @@ public class ResponseLoggingFilter implements ClientResponseFilter {
     if (status >= 200 && status <= 299) {
       this.logger.log(Level.FINE, "\n<< " + msg + "\n\n");
     } else {
-      final String entityString;
-      try (var br =
-          new BufferedReader(
-              new InputStreamReader(responseContext.getEntityStream(), StandardCharsets.UTF_8))) {
-        entityString = br.lines().collect(Collectors.joining("\n"));
-      }
+      // Read the entity stream fully, then replace it with a fresh stream over the same bytes -
+      // consuming (and, worse, closing, as a try-with-resources reader would) the original
+      // stream here leaves nothing for the client proxy to read afterwards, so it can't build
+      // the exception/entity it hands back to the caller and throws a confusing
+      // IllegalStateException("Response is closed") instead of the real error.
+      final byte[] entityBytes = responseContext.getEntityStream().readAllBytes();
+      final String entityString = new String(entityBytes, StandardCharsets.UTF_8);
       this.logger.log(Level.SEVERE, "\n<< " + msg + " " + entityString + "\n\n");
+      responseContext.setEntityStream(new ByteArrayInputStream(entityBytes));
     }
   }
 }

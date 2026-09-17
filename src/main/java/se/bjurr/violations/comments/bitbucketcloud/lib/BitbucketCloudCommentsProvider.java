@@ -1,5 +1,7 @@
 package se.bjurr.violations.comments.bitbucketcloud.lib;
 
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,6 +36,13 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   public BitbucketCloudCommentsProvider(final ViolationCommentsToBitbucketCloudApi api) {
     this.api = api;
     this.repositoryClient = RestEasyClientFactory.create(RepositoriesApi.class, api);
+  }
+
+  /** Package-private: lets tests point the client at a local WireMock server. */
+  BitbucketCloudCommentsProvider(
+      final ViolationCommentsToBitbucketCloudApi api, final String baseUrl) {
+    this.api = api;
+    this.repositoryClient = RestEasyClientFactory.create(RepositoriesApi.class, api, baseUrl);
   }
 
   @Override
@@ -121,12 +130,31 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
       // comment, and Bitbucket Cloud lets any top-level comment's thread be resolved. This
       // collapses it in the PR UI instead of erasing it outright, matching the resolvable
       // comments behavior already implemented for GitLab and Bitbucket Server.
-      repositoryClient
-          .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdResolvePost(
-              commentId,
-              Integer.valueOf(api.getPullRequestId()),
-              api.getRepositorySlug(),
-              api.getWorkspace());
+      //
+      // Resolving isn't always possible though: a comment resolved by a previous run (or by a
+      // human) is still returned by getComments(), so a later run can be asked to remove it
+      // again and hit 409 - that's not a failure, there's just nothing left to do. And a
+      // comment could in principle not be resolvable at all (e.g. it isn't top-level, 403).
+      // Fall back to a plain delete for anything other than "already resolved" so an ordinary,
+      // non-resolvable comment still gets cleaned up instead of crashing the whole run.
+      try {
+        repositoryClient
+            .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdResolvePost(
+                commentId,
+                Integer.valueOf(api.getPullRequestId()),
+                api.getRepositorySlug(),
+                api.getWorkspace());
+      } catch (final WebApplicationException e) {
+        if (e.getResponse().getStatus() == Status.CONFLICT.getStatusCode()) {
+          continue;
+        }
+        repositoryClient
+            .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
+                commentId,
+                Integer.valueOf(api.getPullRequestId()),
+                api.getRepositorySlug(),
+                api.getWorkspace());
+      }
     }
   }
 

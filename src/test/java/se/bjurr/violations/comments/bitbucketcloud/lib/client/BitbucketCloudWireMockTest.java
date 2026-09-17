@@ -98,7 +98,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final Pullrequest pullrequest =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdGet(
-            "testworkspace", "testrepo", "1");
+            1, "testrepo", "testworkspace");
 
     // Then
     assertThat(pullrequest).isNotNull();
@@ -163,7 +163,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final PaginatedDiffstats diffstats =
         client.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
-            "testworkspace", "testrepo", "abc123..def456", null);
+            "testrepo", "abc123..def456", "testworkspace", null, null, null, null, null);
 
     // Then
     assertThat(diffstats).isNotNull();
@@ -217,7 +217,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final PaginatedDiffstats diffstats =
         client.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
-            "testworkspace", "testrepo", "abc123..def456", null);
+            "testrepo", "abc123..def456", "testworkspace", null, null, null, null, null);
 
     // Then: deserialization doesn't throw, status is null since it isn't a recognized enum
     // value, but the fields callers actually use are still populated correctly.
@@ -255,7 +255,16 @@ public class BitbucketCloudWireMockTest {
     // When
     final String diff =
         client.repositoriesWorkspaceRepoSlugDiffSpecGet(
-            "testworkspace", "abc123..def456", "testrepo", null, null, null, false);
+            "testrepo",
+            "abc123..def456",
+            "testworkspace",
+            null,
+            null,
+            null,
+            false,
+            null,
+            null,
+            null);
 
     // Then
     assertThat(diff).isNotNull();
@@ -304,7 +313,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final PaginatedPullrequestComments comments =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsGet(
-            "testworkspace", "testrepo", "1");
+            1, "testrepo", "testworkspace");
 
     // Then
     assertThat(comments).isNotNull();
@@ -348,7 +357,7 @@ public class BitbucketCloudWireMockTest {
 
     final Comment created =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
-            "testworkspace", "testrepo", "1", comment);
+            1, "testrepo", "testworkspace", comment);
 
     // Then
     assertThat(created).isNotNull();
@@ -399,7 +408,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final PaginatedActivities activities =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdActivityGet(
-            "testworkspace", "testrepo", "1");
+            1, "testrepo", "testworkspace");
 
     // Then
     assertThat(activities).isNotNull();
@@ -419,12 +428,41 @@ public class BitbucketCloudWireMockTest {
 
     // When
     client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
-        "testworkspace", "1", "123", "testrepo");
+        123L, 1, "testrepo", "testworkspace");
 
     // Then
     wireMockServer.verify(
         deleteRequestedFor(
             urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/comments/123")));
+  }
+
+  @Test
+  public void testResolveComment() {
+    // Given
+    final String resolutionJson =
+        """
+        {
+          "type": "resolution"
+        }
+        """;
+    wireMockServer.stubFor(
+        post(urlPathEqualTo(
+                "/repositories/testworkspace/testrepo/pullrequests/1/comments/123/resolve"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resolutionJson)));
+
+    // When
+    client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdResolvePost(
+        123L, 1, "testrepo", "testworkspace");
+
+    // Then
+    wireMockServer.verify(
+        postRequestedFor(
+            urlPathEqualTo(
+                "/repositories/testworkspace/testrepo/pullrequests/1/comments/123/resolve")));
   }
 
   @Test
@@ -481,7 +519,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final Pullrequest pullrequest =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdGet(
-            "testworkspace", "testrepo", "1");
+            1, "testrepo", "testworkspace");
 
     // Then
     assertThat(pullrequest).isNotNull();
@@ -535,7 +573,7 @@ public class BitbucketCloudWireMockTest {
     // When
     final PaginatedPullrequestsCommits commits =
         client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommitsGet(
-            "testworkspace", "1", "testrepo");
+            1, "testrepo", "testworkspace");
 
     // Then
     assertThat(commits).isNotNull();

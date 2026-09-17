@@ -72,7 +72,16 @@ public class BitbucketCloudSimpleWireMockTest {
     // When
     final String diff =
         client.repositoriesWorkspaceRepoSlugDiffSpecGet(
-            "testworkspace", "abc123..def456", "testrepo", null, null, null, false);
+            "testrepo",
+            "abc123..def456",
+            "testworkspace",
+            null,
+            null,
+            null,
+            false,
+            null,
+            null,
+            null);
 
     // Then
     assertThat(diff).isNotNull();
@@ -89,7 +98,7 @@ public class BitbucketCloudSimpleWireMockTest {
 
     // When
     client.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
-        "testworkspace", "1", "123", "testrepo");
+        123L, 1, "testrepo", "testworkspace");
 
     // Then
     wireMockServer.verify(
@@ -110,7 +119,7 @@ public class BitbucketCloudSimpleWireMockTest {
 
     // When
     client.repositoriesWorkspaceRepoSlugDiffSpecGet(
-        "testworkspace", "test..master", "testrepo", null, null, null, false);
+        "testrepo", "test..master", "testworkspace", null, null, null, false, null, null, null);
 
     // Then
     wireMockServer.verify(
@@ -136,7 +145,7 @@ public class BitbucketCloudSimpleWireMockTest {
 
     // When
     client.repositoriesWorkspaceRepoSlugDiffSpecGet(
-        "testworkspace", "test..master", "testrepo", null, null, null, false);
+        "testrepo", "test..master", "testworkspace", null, null, null, false, null, null, null);
 
     // Then
     wireMockServer.verify(

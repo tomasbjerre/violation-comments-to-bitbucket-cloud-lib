@@ -46,7 +46,10 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     comment.setContent(content);
 
     repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
-        api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId(), comment);
+        Integer.valueOf(api.getPullRequestId()),
+        api.getRepositorySlug(),
+        api.getWorkspace(),
+        comment);
   }
 
   @Override
@@ -68,14 +71,17 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     comment.setInline(inline);
 
     repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
-        api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId(), comment);
+        Integer.valueOf(api.getPullRequestId()),
+        api.getRepositorySlug(),
+        api.getWorkspace(),
+        comment);
   }
 
   @Override
   public List<Comment> getComments() {
     final PaginatedActivities activities =
         repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdActivityGet(
-            api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
+            Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace());
 
     final List<Comment> comments =
         activities.getValues().stream()
@@ -86,7 +92,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
 
     final PaginatedPullrequestComments prComments =
         repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsGet(
-            api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
+            Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace());
     comments.addAll(
         prComments.getValues().stream().map(COMMENT_TO_COMMENT).collect(Collectors.toList()));
 
@@ -110,10 +116,17 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   @Override
   public void removeComments(final List<Comment> comments) {
     for (final Comment comment : comments) {
-      final String commentId = comment.getIdentifier();
+      final Long commentId = Long.valueOf(comment.getIdentifier());
+      // Resolve rather than delete: every comment this library creates is a top-level PR
+      // comment, and Bitbucket Cloud lets any top-level comment's thread be resolved. This
+      // collapses it in the PR UI instead of erasing it outright, matching the resolvable
+      // comments behavior already implemented for GitLab and Bitbucket Server.
       repositoryClient
-          .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdDelete(
-              api.getWorkspace(), api.getPullRequestId(), commentId, api.getRepositorySlug());
+          .repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdResolvePost(
+              commentId,
+              Integer.valueOf(api.getPullRequestId()),
+              api.getRepositorySlug(),
+              api.getWorkspace());
     }
   }
 
@@ -178,15 +191,27 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
 
   private synchronized String getDiff(final String path) {
     if (!diffsPerFile.containsKey(path)) {
-      final String username = api.getWorkspace();
       final String repoSlug = this.api.getRepositorySlug();
+      final String workspace = api.getWorkspace();
       final String spec = getDiffSpec();
       final Integer context = null;
       final Boolean ignoreWhitespace = null;
       final Boolean binary = null;
+      final Boolean renames = null;
+      final Boolean merge = null;
+      final Boolean topic = null;
       final String diffString =
           repositoryClient.repositoriesWorkspaceRepoSlugDiffSpecGet(
-              username, spec, repoSlug, context, path, ignoreWhitespace, binary);
+              repoSlug,
+              spec,
+              workspace,
+              context,
+              path,
+              ignoreWhitespace,
+              binary,
+              renames,
+              merge,
+              topic);
       this.diffsPerFile.put(path, diffString);
     }
     return this.diffsPerFile.get(path);
@@ -198,9 +223,20 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     }
     final String spec = getDiffSpec();
     final Boolean ignoreWhitespace = null;
+    final Boolean merge = null;
+    final String path = null;
+    final Boolean renames = null;
+    final Boolean topic = null;
     final PaginatedDiffstats diff =
         repositoryClient.repositoriesWorkspaceRepoSlugDiffstatSpecGet(
-            api.getWorkspace(), api.getRepositorySlug(), spec, ignoreWhitespace);
+            api.getRepositorySlug(),
+            spec,
+            api.getWorkspace(),
+            ignoreWhitespace,
+            merge,
+            path,
+            renames,
+            topic);
     this.diffStat = List.copyOf(diff.getValues());
     return this.diffStat;
   }
@@ -209,7 +245,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     if (this.diffSpec == null) {
       final Pullrequest pr =
           repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdGet(
-              api.getWorkspace(), api.getRepositorySlug(), api.getPullRequestId());
+              Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace());
       diffSpec =
           pr.getSource().getCommit().getHash() + ".." + pr.getDestination().getCommit().getHash();
     }
@@ -222,7 +258,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   }
 
   public static List<se.bjurr.bitbucketcloud.gen.model.Comment> getOrderedComments(
-      Set<se.bjurr.bitbucketcloud.gen.model.Comment> values) {
+      Set<? extends se.bjurr.bitbucketcloud.gen.model.Comment> values) {
     return values.stream()
         .sorted((a, b) -> a.getCreatedOn().compareTo(b.getCreatedOn()))
         .collect(Collectors.toList());

@@ -13,7 +13,11 @@ staticCodeAnalysisExtension {
 
 dependencies {
 	api "se.bjurr.violations:violation-comments-lib:1.111.0"
-	api "se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api:3.0.0"
+	// TODO: switch to the real released version once
+	// https://github.com/tomasbjerre/bitbucket-cloud-java-rest-api/pull/6 is merged and released
+	// (fixes PaginatedActivities, the comment type discriminator, and Jackson 3 deserialization
+	// of every additionalProperties model). Using a local build in the meantime.
+	api "se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api:3.2.2-local"
 	api "org.jboss.resteasy:resteasy-client:7.0.4.Final"
 	api "org.jboss.resteasy:resteasy-multipart-provider:7.0.4.Final"
 	api "tools.jackson.core:jackson-databind:3.2.2"

@@ -3,7 +3,6 @@ package se.bjurr.violations.comments.bitbucketcloud.lib;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
 import se.bjurr.bitbucketcloud.gen.model.*;
@@ -14,16 +13,13 @@ import se.bjurr.violations.comments.lib.model.Comment;
 import se.bjurr.violations.lib.util.PatchParserUtil;
 
 public class BitbucketCloudCommentsProvider implements CommentsProvider {
-  private static final Function<
-          ? super se.bjurr.bitbucketcloud.gen.model.Comment, ? extends Comment>
-      COMMENT_TO_COMMENT =
-          (it) -> {
-            final String identifier = it.getId() + "";
-            final String content = it.getContent().getRaw();
-            final String type = null;
-            final List<String> specifics = new ArrayList<>();
-            return new Comment(identifier, content, type, specifics);
-          };
+  /**
+   * Index in {@link Comment#getSpecifics()} of the id of the task attached to this comment, or an
+   * empty string when it has none. A task is a separate object from its comment - resolving the
+   * comment does not resolve the task (confirmed against a real PR), so {@link
+   * #removeComments(List)} needs this to know whether to resolve a task instead of the comment.
+   */
+  static final int SPECIFIC_TASK_ID = 0;
 
   private final ViolationCommentsToBitbucketCloudApi api;
   private final RepositoriesApi repositoryClient;
@@ -54,11 +50,16 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
         new se.bjurr.bitbucketcloud.gen.model.Comment();
     comment.setContent(content);
 
-    repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
-        Integer.valueOf(api.getPullRequestId()),
-        api.getRepositorySlug(),
-        api.getWorkspace(),
-        comment);
+    final se.bjurr.bitbucketcloud.gen.model.Comment created =
+        repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
+            Integer.valueOf(api.getPullRequestId()),
+            api.getRepositorySlug(),
+            api.getWorkspace(),
+            comment);
+
+    if (api.shouldCreateCommentTasks()) {
+      createTaskFor(created.getId(), commentString);
+    }
   }
 
   @Override
@@ -79,15 +80,32 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
     comment.setContent(content);
     comment.setInline(inline);
 
-    repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
-        Integer.valueOf(api.getPullRequestId()),
-        api.getRepositorySlug(),
-        api.getWorkspace(),
-        comment);
+    final se.bjurr.bitbucketcloud.gen.model.Comment created =
+        repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsPost(
+            Integer.valueOf(api.getPullRequestId()),
+            api.getRepositorySlug(),
+            api.getWorkspace(),
+            comment);
+
+    if (api.shouldCreateCommentTasks()) {
+      createTaskFor(created.getId(), commentString);
+    }
+  }
+
+  private void createTaskFor(final Long commentId, final String taskText) {
+    final PullrequestTaskCreate task =
+        new PullrequestTaskCreate()
+            .content(new TaskRawContent(taskText))
+            .comment(new se.bjurr.bitbucketcloud.gen.model.Comment().id(commentId))
+            .pending(true);
+    repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdTasksPost(
+        Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace(), task);
   }
 
   @Override
   public List<Comment> getComments() {
+    final Map<Long, Long> taskIdByCommentId = getTaskIdByCommentId();
+
     final PaginatedActivities activities =
         repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdActivityGet(
             Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace());
@@ -96,16 +114,53 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
         activities.getValues().stream()
             .map(it -> it.getComment())
             .filter(it -> it != null)
-            .map(COMMENT_TO_COMMENT)
+            .map(it -> toComment(it, taskIdByCommentId))
             .collect(Collectors.toList());
 
     final PaginatedPullrequestComments prComments =
         repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsGet(
             Integer.valueOf(api.getPullRequestId()), api.getRepositorySlug(), api.getWorkspace());
     comments.addAll(
-        prComments.getValues().stream().map(COMMENT_TO_COMMENT).collect(Collectors.toList()));
+        prComments.getValues().stream()
+            .map(it -> toComment(it, taskIdByCommentId))
+            .collect(Collectors.toList()));
 
     return comments;
+  }
+
+  private static Comment toComment(
+      final se.bjurr.bitbucketcloud.gen.model.Comment it, final Map<Long, Long> taskIdByCommentId) {
+    final String identifier = it.getId() + "";
+    final String content = it.getContent().getRaw();
+    final String type = null;
+    final List<String> specifics = new ArrayList<>();
+    final Long taskId = taskIdByCommentId.get(it.getId());
+    specifics.add(SPECIFIC_TASK_ID, taskId == null ? "" : taskId.toString());
+    return new Comment(identifier, content, type, specifics);
+  }
+
+  /** Every task in the PR, keyed by the id of the comment it's attached to. */
+  private Map<Long, Long> getTaskIdByCommentId() {
+    final String q = null;
+    final String sort = null;
+    final Integer pagelen = 100;
+    final PaginatedTasks tasks =
+        repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdTasksGet(
+            Integer.valueOf(api.getPullRequestId()),
+            api.getRepositorySlug(),
+            api.getWorkspace(),
+            q,
+            sort,
+            pagelen);
+    final Map<Long, Long> taskIdByCommentId = new HashMap<>();
+    if (tasks.getValues() != null) {
+      for (final PullrequestCommentTask task : tasks.getValues()) {
+        if (task.getComment() != null && task.getComment().getId() != null) {
+          taskIdByCommentId.put(task.getComment().getId(), task.getId());
+        }
+      }
+    }
+    return taskIdByCommentId;
   }
 
   @Override
@@ -126,6 +181,27 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   public void removeComments(final List<Comment> comments) {
     for (final Comment comment : comments) {
       final Long commentId = Long.valueOf(comment.getIdentifier());
+
+      // A task is a separate object from its comment - resolving the comment does not resolve
+      // the task (confirmed against a real PR: a resolved comment's task stayed UNRESOLVED).
+      // So when this comment has one, resolve the task and leave the comment as-is, matching
+      // the "resolve rather than remove" behavior already implemented for Bitbucket Server's
+      // tasks. Re-resolving an already-resolved task is a harmless no-op (confirmed live: a
+      // second PUT to an already-RESOLVED task still returns 200), so this needs no special
+      // casing for that.
+      final String taskId = comment.getSpecifics().get(SPECIFIC_TASK_ID);
+      if (!taskId.isEmpty()) {
+        final PullrequestTaskUpdate update =
+            new PullrequestTaskUpdate().state(PullrequestTaskUpdate.StateEnum.RESOLVED);
+        repositoryClient.repositoriesWorkspaceRepoSlugPullrequestsPullRequestIdTasksTaskIdPut(
+            Integer.valueOf(api.getPullRequestId()),
+            api.getRepositorySlug(),
+            Long.valueOf(taskId),
+            api.getWorkspace(),
+            update);
+        continue;
+      }
+
       // Resolve rather than delete: every comment this library creates is a top-level PR
       // comment, and Bitbucket Cloud lets any top-level comment's thread be resolved. This
       // collapses it in the PR UI instead of erasing it outright, matching the resolvable

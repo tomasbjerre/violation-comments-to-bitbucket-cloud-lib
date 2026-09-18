@@ -7,8 +7,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
+import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static se.bjurr.violations.comments.bitbucketcloud.lib.BitbucketCloudCommentsProvider.SPECIFIC_TASK_ID;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
@@ -77,6 +80,17 @@ public class BitbucketCloudRealPullRequestWireMockTest {
     }
   }
 
+  /** Stubs an empty task list, for tests where no comment in play has a task attached. */
+  private void stubNoTasks() {
+    wireMockServer.stubFor(
+        get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody("{\"pagelen\": 100, \"size\": 0, \"page\": 1, \"values\": []}")));
+  }
+
   private void stubPullRequestAndDiffstat() {
     wireMockServer.stubFor(
         get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1"))
@@ -110,6 +124,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
 
   @Test
   public void testGetComments_ParsesRealActivityAndComments() {
+    stubNoTasks();
     wireMockServer.stubFor(
         get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/activity"))
             .willReturn(
@@ -203,6 +218,171 @@ public class BitbucketCloudRealPullRequestWireMockTest {
   }
 
   @Test
+  public void testCreateComment_DoesNotCreateATaskByDefault() {
+    wireMockServer.stubFor(
+        post(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/comments"))
+            .willReturn(
+                aResponse()
+                    .withStatus(201)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("create-task-anchor-comment-response.json"))));
+
+    provider.createComment("Some violation");
+
+    wireMockServer.verify(
+        0,
+        postRequestedFor(
+            urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks")));
+  }
+
+  @Test
+  public void testCreateComment_CreatesATaskWhenConfiguredTo() {
+    // Real captures from posting a comment, then a task anchored to it, on the real PR.
+    wireMockServer.stubFor(
+        post(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/comments"))
+            .willReturn(
+                aResponse()
+                    .withStatus(201)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("create-task-anchor-comment-response.json"))));
+    wireMockServer.stubFor(
+        post(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .willReturn(
+                aResponse()
+                    .withStatus(201)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("create-task-response.json"))));
+
+    final ViolationCommentsToBitbucketCloudApi api =
+        new ViolationCommentsToBitbucketCloudApi()
+            .withUsername("testuser")
+            .withPassword("testpass")
+            .withWorkspace("testworkspace")
+            .withRepositorySlug("testrepo")
+            .withPullRequestId("1")
+            .withCreateCommentTasks(true);
+    final BitbucketCloudCommentsProvider taskProvider =
+        new BitbucketCloudCommentsProvider(api, wireMockServer.baseUrl());
+
+    taskProvider.createComment("[violations-test] task-cascade probe comment");
+
+    // The real anchor comment's id (865602458), as the created task must reference it.
+    wireMockServer.verify(
+        postRequestedFor(
+                urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .withRequestBody(containing("865602458"))
+            .withRequestBody(containing("task-cascade probe comment")));
+  }
+
+  @Test
+  public void testCreateSingleFileComment_CreatesATaskWhenConfiguredTo() {
+    // Real captures from posting an inline diff comment, then a task anchored to it.
+    wireMockServer.stubFor(
+        post(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/comments"))
+            .willReturn(
+                aResponse()
+                    .withStatus(201)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("create-inline-task-anchor-comment-response.json"))));
+    wireMockServer.stubFor(
+        post(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .willReturn(
+                aResponse()
+                    .withStatus(201)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("create-inline-task-response.json"))));
+
+    final ViolationCommentsToBitbucketCloudApi api =
+        new ViolationCommentsToBitbucketCloudApi()
+            .withUsername("testuser")
+            .withPassword("testpass")
+            .withWorkspace("testworkspace")
+            .withRepositorySlug("testrepo")
+            .withPullRequestId("1")
+            .withCreateCommentTasks(true);
+    final BitbucketCloudCommentsProvider taskProvider =
+        new BitbucketCloudCommentsProvider(api, wireMockServer.baseUrl());
+
+    final ChangedFile myClass = new ChangedFile(MY_CLASS_PATH, Collections.emptyList());
+    taskProvider.createSingleFileComment(myClass, 5, "[violations-test] inline task-cascade probe");
+
+    // The real inline anchor comment's id (865602816).
+    wireMockServer.verify(
+        postRequestedFor(
+                urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .withRequestBody(containing("865602816")));
+  }
+
+  @Test
+  public void testGetComments_MarksCommentsThatHaveATaskAttached() {
+    // Real capture: the tasks list for the PR, with one task on each of two real comments -
+    // one already RESOLVED, one still UNRESOLVED. Enrichment only cares that a task exists, not
+    // its state, since removeComments() unconditionally resolves whatever task it finds.
+    wireMockServer.stubFor(
+        get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("tasks-list-response.json"))));
+    wireMockServer.stubFor(
+        get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/activity"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody("{\"pagelen\": 100, \"size\": 0, \"page\": 1, \"values\": []}")));
+    wireMockServer.stubFor(
+        get(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/comments"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("comments-with-tasks.json"))));
+
+    final List<Comment> comments = provider.getComments();
+
+    assertThat(comments).hasSize(2);
+    final Comment topLevel =
+        comments.stream().filter(c -> c.getIdentifier().equals("865602458")).findFirst().get();
+    assertThat(topLevel.getSpecifics().get(SPECIFIC_TASK_ID)).isEqualTo("72305227");
+    final Comment inline =
+        comments.stream().filter(c -> c.getIdentifier().equals("865602816")).findFirst().get();
+    assertThat(inline.getSpecifics().get(SPECIFIC_TASK_ID)).isEqualTo("72305281");
+  }
+
+  @Test
+  public void testRemoveComments_ResolvesTheTaskInsteadOfTheCommentWhenOneIsAttached() {
+    wireMockServer.stubFor(
+        put(urlPathEqualTo("/repositories/testworkspace/testrepo/pullrequests/1/tasks/72305227"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json;charset=utf-8")
+                    .withBody(resource("resolve-task-response.json"))));
+
+    provider.removeComments(
+        Collections.singletonList(
+            new Comment("865602458", "some comment", null, List.of("72305227"))));
+
+    wireMockServer.verify(
+        putRequestedFor(
+                urlPathEqualTo(
+                    "/repositories/testworkspace/testrepo/pullrequests/1/tasks/72305227"))
+            .withRequestBody(containing("RESOLVED")));
+    wireMockServer.verify(
+        0,
+        postRequestedFor(
+            urlPathEqualTo(
+                "/repositories/testworkspace/testrepo/pullrequests/1/comments/865602458/resolve")));
+    wireMockServer.verify(
+        0,
+        deleteRequestedFor(
+            urlPathEqualTo(
+                "/repositories/testworkspace/testrepo/pullrequests/1/comments/865602458")));
+  }
+
+  @Test
   public void testRemoveComments_ResolvesUsingRealBitbucketResponse() {
     // Real 200 response body: {"type": "comment_resolution", "user": {...}, "created_on": ...}
     wireMockServer.stubFor(
@@ -215,8 +395,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
                     .withBody(resource("resolve-success.json"))));
 
     provider.removeComments(
-        Collections.singletonList(
-            new Comment("138478756", "some comment", null, Collections.emptyList())));
+        Collections.singletonList(new Comment("138478756", "some comment", null, List.of(""))));
 
     wireMockServer.verify(
         postRequestedFor(
@@ -244,8 +423,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
                     .withBody(resource("resolve-conflict.json"))));
 
     provider.removeComments(
-        Collections.singletonList(
-            new Comment("138478756", "some comment", null, Collections.emptyList())));
+        Collections.singletonList(new Comment("138478756", "some comment", null, List.of(""))));
 
     wireMockServer.verify(
         0,
@@ -274,8 +452,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
             .willReturn(aResponse().withStatus(204)));
 
     provider.removeComments(
-        Collections.singletonList(
-            new Comment("105331691", "some comment", null, Collections.emptyList())));
+        Collections.singletonList(new Comment("105331691", "some comment", null, List.of(""))));
 
     wireMockServer.verify(
         deleteRequestedFor(

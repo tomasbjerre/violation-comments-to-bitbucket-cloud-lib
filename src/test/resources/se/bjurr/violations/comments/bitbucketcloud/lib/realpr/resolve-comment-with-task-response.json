@@ -1,0 +1,22 @@
+{
+  "type": "comment_resolution",
+  "user": {
+    "display_name": "Tomas Bjerre",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+      },
+      "avatar": {
+        "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+      },
+      "html": {
+        "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+      }
+    },
+    "type": "user",
+    "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+    "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+    "nickname": "Tomas Bjerre"
+  },
+  "created_on": "2026-09-18T06:44:26.594293+00:00"
+}

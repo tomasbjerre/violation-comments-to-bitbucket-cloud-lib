@@ -9,8 +9,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.internal.BasicAuthentication;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.jboss.resteasy.plugins.providers.StringTextStar;
-import se.bjurr.bitbucketcloud.gen.model.Comment;
-import se.bjurr.bitbucketcloud.gen.model.PullrequestCommentTask;
 import se.bjurr.violations.comments.bitbucketcloud.lib.ViolationCommentsToBitbucketCloudApi;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.cfg.DateTimeFeature;
@@ -39,11 +37,6 @@ public class RestEasyClientFactory {
             // never rely on getting every enum constant resolved.
             .enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
             .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
-            // See PullrequestCommentTaskMixin: the comment a task is anchored to is returned as
-            // a minimal, type-less reference, which the generated Comment model - polymorphic by
-            // default - can't otherwise resolve.
-            .addMixIn(PullrequestCommentTask.class, PullrequestCommentTaskMixin.class)
-            .addMixIn(Comment.class, PullrequestCommentTaskMixin.CommentMixin.class)
             .build();
 
     final JacksonJakartaJsonProvider jsonProvider = new JacksonJakartaJsonProvider(mapper);

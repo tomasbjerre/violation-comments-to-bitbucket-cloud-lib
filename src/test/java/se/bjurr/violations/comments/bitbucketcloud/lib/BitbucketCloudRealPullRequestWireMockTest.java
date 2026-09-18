@@ -11,6 +11,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -42,7 +43,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
 
   @BeforeEach
   public void setup() {
-    wireMockServer = new WireMockServer(8089);
+    wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort());
     wireMockServer.start();
 
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
@@ -53,7 +54,7 @@ public class BitbucketCloudRealPullRequestWireMockTest {
     api.withPullRequestId("1");
     api.withShouldCommentOnlyChangedContent(true);
 
-    provider = new BitbucketCloudCommentsProvider(api, "http://localhost:8089");
+    provider = new BitbucketCloudCommentsProvider(api, wireMockServer.baseUrl());
   }
 
   @AfterEach

@@ -8,6 +8,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +23,7 @@ public class BitbucketCloudCommentsProviderTest {
 
   @BeforeEach
   public void setup() {
-    wireMockServer = new WireMockServer(8089);
+    wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort());
     wireMockServer.start();
 
     final ViolationCommentsToBitbucketCloudApi api = new ViolationCommentsToBitbucketCloudApi();
@@ -32,7 +33,7 @@ public class BitbucketCloudCommentsProviderTest {
     api.withRepositorySlug("testrepo");
     api.withPullRequestId("1");
 
-    provider = new BitbucketCloudCommentsProvider(api, "http://localhost:8089");
+    provider = new BitbucketCloudCommentsProvider(api, wireMockServer.baseUrl());
   }
 
   @AfterEach

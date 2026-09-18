@@ -1,0 +1,70 @@
+{
+  "id": 865602816,
+  "created_on": "2026-09-18T06:45:09.902703+00:00",
+  "updated_on": "2026-09-18T06:45:09.910023+00:00",
+  "content": {
+    "type": "rendered",
+    "raw": "[violations-test] inline task-cascade probe",
+    "markup": "markdown",
+    "html": "<p>[violations-test] inline task-cascade probe</p>"
+  },
+  "user": {
+    "display_name": "Tomas Bjerre",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+      },
+      "avatar": {
+        "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+      },
+      "html": {
+        "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+      }
+    },
+    "type": "user",
+    "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+    "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+    "nickname": "Tomas Bjerre"
+  },
+  "deleted": false,
+  "inline": {
+    "from": null,
+    "to": 5,
+    "path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+    "start_from": null,
+    "start_to": null,
+    "outdated": false,
+    "context_lines": "",
+    "src_rev": "a31d1b70c972",
+    "dest_rev": "b563d040b08e",
+    "base_rev": null
+  },
+  "pending": false,
+  "type": "pullrequest_comment",
+  "links": {
+    "self": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments/865602816"
+    },
+    "html": {
+      "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#comment-865602816"
+    },
+    "code": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/diff/tomasbjerre/violations-test:a31d1b70c972..b563d040b08e?path=src%2Fmain%2Fjava%2Fse%2Fbjurr%2Fviolations%2Flib%2Fexample%2FMyClass.java"
+    }
+  },
+  "pullrequest": {
+    "type": "pullrequest",
+    "id": 1,
+    "title": "some crap",
+    "draft": false,
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1"
+      },
+      "html": {
+        "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1"
+      }
+    },
+    "queued": false
+  }
+}

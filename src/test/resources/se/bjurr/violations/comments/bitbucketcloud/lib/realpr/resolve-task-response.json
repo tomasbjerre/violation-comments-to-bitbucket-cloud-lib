@@ -1,0 +1,69 @@
+{
+  "id": 72305227,
+  "state": "RESOLVED",
+  "content": {
+    "type": "rendered",
+    "raw": "[violations-test] follow up on this",
+    "markup": "markdown",
+    "html": "<p>[violations-test] follow up on this</p>"
+  },
+  "created_on": "2026-09-18T06:44:18.578078+00:00",
+  "updated_on": "2026-09-18T06:53:43.051896+00:00",
+  "resolved_on": "2026-09-18T06:53:43.051891+00:00",
+  "resolved_by": {
+    "display_name": "Tomas Bjerre",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+      },
+      "avatar": {
+        "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+      },
+      "html": {
+        "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+      }
+    },
+    "type": "user",
+    "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+    "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+    "nickname": "Tomas Bjerre"
+  },
+  "pending": true,
+  "creator": {
+    "display_name": "Tomas Bjerre",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+      },
+      "avatar": {
+        "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+      },
+      "html": {
+        "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+      }
+    },
+    "type": "user",
+    "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+    "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+    "nickname": "Tomas Bjerre"
+  },
+  "links": {
+    "self": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/tasks/72305227"
+    },
+    "html": {
+      "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#task-72305227"
+    }
+  },
+  "comment": {
+    "id": 865602458,
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments/865602458"
+      },
+      "html": {
+        "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#comment-865602458"
+      }
+    }
+  }
+}

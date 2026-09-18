@@ -44,8 +44,9 @@ public class BitbucketCloudCommentsProviderTest {
   }
 
   private List<Comment> commentWithId(final String id) {
-    return Collections.singletonList(
-        new Comment(id, "some comment", null, Collections.emptyList()));
+    // Empty string at SPECIFIC_TASK_ID: the shape getComments() produces for a comment with no
+    // task attached.
+    return Collections.singletonList(new Comment(id, "some comment", null, List.of("")));
   }
 
   @Test

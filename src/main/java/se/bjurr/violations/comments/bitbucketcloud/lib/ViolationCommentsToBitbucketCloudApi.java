@@ -60,6 +60,8 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   private boolean shouldCommentOnlyChangedFiles = true;
 
+  private boolean shouldCreateCommentTasks;
+
   public ViolationCommentsToBitbucketCloudApi() {}
 
   public static ViolationCommentsToBitbucketCloudApi violationCommentsToBitbucketCloudApi() {
@@ -100,6 +102,14 @@ public class ViolationCommentsToBitbucketCloudApi {
 
   public boolean shouldKeepOldComments() {
     return this.shouldKeepOldComments;
+  }
+
+  /**
+   * Whether each posted comment should also get a Bitbucket Cloud task attached to it, so it's
+   * required to be ticked off/resolved. Defaults to <code>false</code>: comments behave as before.
+   */
+  public boolean shouldCreateCommentTasks() {
+    return this.shouldCreateCommentTasks;
   }
 
   public Optional<String> findCommentTemplate() {
@@ -200,6 +210,12 @@ public class ViolationCommentsToBitbucketCloudApi {
   public ViolationCommentsToBitbucketCloudApi withShouldCommentOnlyChangedContent(
       final boolean shouldCommentOnlyChangedContent) {
     this.shouldCommentOnlyChangedContent = shouldCommentOnlyChangedContent;
+    return this;
+  }
+
+  public ViolationCommentsToBitbucketCloudApi withCreateCommentTasks(
+      final boolean shouldCreateCommentTasks) {
+    this.shouldCreateCommentTasks = shouldCreateCommentTasks;
     return this;
   }
 

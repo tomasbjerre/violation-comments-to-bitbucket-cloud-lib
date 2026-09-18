@@ -1,3 +1,43 @@
+## 2.2.0 (2026-09-18)
+
+### Features
+
+-  add option to attach a task to each posted comment ([d23b3](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/d23b379365e2296) Tomas Bjerre)  
+-  resolve comments instead of removing them ([41b3a](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/41b3a61f588e9df) Tomas Bjerre)  
+-  migrate to Jackson 3 and tolerate unknown diffstat status values ([585b5](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/585b564b5ca71da) Tomas Bjerre)  
+
+### Bug Fixes
+
+-  drop the task-comment mixin workaround, upgrade to 3.2.4 ([794de](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/794de1b9a9ac6c6) Tomas Bjerre)  
+-  fall back to deleting a comment when it can't be resolved ([5dc29](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/5dc299b59a17f6b) Tomas Bjerre)  
+-  satisfy static code analysis in JacksonJakartaJsonProvider ([3530b](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/3530b79fb94dcc2) Tomas Bjerre)  
+-  avoid RC dependency and resolutionStrategy force ([4b81a](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/4b81a28bb9b5cc8) Tomas Bjerre)  
+
+### Dependency updates
+
+- update dependency se.bjurr.violations:violation-comments-lib to v1.111.0 (#10) ([94e37](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/94e37cbfa28d35b) renovate[bot])  
+- update plugin se.bjurr.gradle.bundle-jar to v2.3.0 (#8) ([095e5](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/095e53c5f47d22c) renovate[bot])  
+### Other changes
+
+**Merge pull request #13 from tomasbjerre/feat/create-comment-tasks**
+
+* feat: add option to attach a task to each posted comment 
+
+[ad2a0](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/ad2a0e9cdb4057a) Tomas Bjerre *2026-09-18 07:59:20*
+
+**Merge pull request #12 from tomasbjerre/test/real-pr-wiremock-integration-tests**
+
+* test: add integration tests replaying real Bitbucket Cloud PR traffic 
+
+[5f35f](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/5f35fe36f008308) Tomas Bjerre *2026-09-18 05:20:28*
+
+**Merge pull request #7 from tomasbjerre/feature/jackson3-migration**
+
+* feat: migrate to Jackson 3 and tolerate unknown diffstat status values 
+
+[d31a3](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/d31a31c31686877) Tomas Bjerre *2026-09-16 18:57:42*
+
+
 ## 2.1.0 (2026-09-14)
 
 ### Features

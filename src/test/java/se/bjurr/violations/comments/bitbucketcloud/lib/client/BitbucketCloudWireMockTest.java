@@ -4,6 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class BitbucketCloudWireMockTest {
 
   @BeforeEach
   public void setup() {
-    wireMockServer = new WireMockServer(8089);
+    wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort());
     wireMockServer.start();
 
     api = new ViolationCommentsToBitbucketCloudApi();
@@ -29,7 +30,7 @@ public class BitbucketCloudWireMockTest {
     api.withRepositorySlug("testrepo");
     api.withPullRequestId("1");
 
-    client = RestEasyClientFactory.create(RepositoriesApi.class, api, "http://localhost:8089");
+    client = RestEasyClientFactory.create(RepositoriesApi.class, api, wireMockServer.baseUrl());
   }
 
   @AfterEach
@@ -471,7 +472,7 @@ public class BitbucketCloudWireMockTest {
     api.withApiToken("test-api-token");
     api.withUsername(null);
     api.withPassword(null);
-    client = RestEasyClientFactory.create(RepositoriesApi.class, api, "http://localhost:8089");
+    client = RestEasyClientFactory.create(RepositoriesApi.class, api, wireMockServer.baseUrl());
 
     final String pullRequestJson =
         """

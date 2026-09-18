@@ -1,0 +1,76 @@
+{
+  "values": [
+    {
+      "type": "diffstat",
+      "lines_added": 0,
+      "lines_removed": 90,
+      "status": "removed",
+      "old": {
+        "path": "gradlew.bat",
+        "type": "commit_file",
+        "escaped_path": "gradlew.bat",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/src/e746f44de4cac5b4a4362e6713a3416e1e6617d3/gradlew.bat"
+          }
+        }
+      },
+      "new": null
+    },
+    {
+      "type": "diffstat",
+      "lines_added": 2,
+      "lines_removed": 0,
+      "status": "modified",
+      "old": {
+        "path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+        "type": "commit_file",
+        "escaped_path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/src/e746f44de4cac5b4a4362e6713a3416e1e6617d3/src/main/java/se/bjurr/violations/lib/example/MyClass.java"
+          }
+        }
+      },
+      "new": {
+        "path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+        "type": "commit_file",
+        "escaped_path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/src/a31d1b70c972c9476346232909a739b0416c4328/src/main/java/se/bjurr/violations/lib/example/MyClass.java"
+          }
+        }
+      }
+    },
+    {
+      "type": "diffstat",
+      "lines_added": 4,
+      "lines_removed": 1,
+      "status": "modified",
+      "old": {
+        "path": "src/main/java/se/bjurr/violations/lib/example/OtherClass.java",
+        "type": "commit_file",
+        "escaped_path": "src/main/java/se/bjurr/violations/lib/example/OtherClass.java",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/src/e746f44de4cac5b4a4362e6713a3416e1e6617d3/src/main/java/se/bjurr/violations/lib/example/OtherClass.java"
+          }
+        }
+      },
+      "new": {
+        "path": "src/main/java/se/bjurr/violations/lib/example/OtherClass.java",
+        "type": "commit_file",
+        "escaped_path": "src/main/java/se/bjurr/violations/lib/example/OtherClass.java",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/src/a31d1b70c972c9476346232909a739b0416c4328/src/main/java/se/bjurr/violations/lib/example/OtherClass.java"
+          }
+        }
+      }
+    }
+  ],
+  "pagelen": 500,
+  "size": 3,
+  "page": 1
+}

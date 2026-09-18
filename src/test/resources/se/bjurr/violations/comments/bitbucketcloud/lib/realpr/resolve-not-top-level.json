@@ -1,0 +1,6 @@
+{
+  "type": "error",
+  "error": {
+    "message": "Comment is not a top-level comment"
+  }
+}

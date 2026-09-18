@@ -1,0 +1,182 @@
+{
+  "pagelen": 10,
+  "values": [
+    {
+      "id": 105331691,
+      "created_on": "2019-06-11T21:00:24.444899+00:00",
+      "updated_on": "2019-06-11T21:00:24.456257+00:00",
+      "content": {
+        "type": "rendered",
+        "raw": "**Reporter**: Checkstyle\n**Rule**: com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck\n**Severity**: INFO\n**File**: /home/bjerre/workspace/violations/violations-test/src/main/java/se/bjurr/violations/lib/example/MyClass.java L9\n\nMust have at least one statement.\n\n\n*<this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF>* *<a1445177646>*",
+        "markup": "markdown",
+        "html": "<p><strong>Reporter</strong>: Checkstyle\n<strong>Rule</strong>: com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck\n<strong>Severity</strong>: INFO\n<strong>File</strong>: /home/bjerre/workspace/violations/violations-test/src/main/java/se/bjurr/violations/lib/example/MyClass.java L9</p>\n<p>Must have at least one statement.</p>\n<p><em>&lt;this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF&gt;</em> <em>&lt;<a href=\"https://bitbucket.org/tomasbjerre/violations-test/commits/a1445177646\" rel=\"nofollow\" class=\"ap-connect-link\">a1445177646</a>&gt;</em></p>"
+      },
+      "user": {
+        "display_name": "Tomas Bjerre",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+          },
+          "avatar": {
+            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+          },
+          "html": {
+            "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+          }
+        },
+        "type": "user",
+        "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+        "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+        "nickname": "Tomas Bjerre"
+      },
+      "deleted": false,
+      "inline": {
+        "from": null,
+        "to": 5,
+        "path": "src/main/java/se/bjurr/violations/lib/example/MyClass.java",
+        "start_from": null,
+        "start_to": null
+      },
+      "pending": false,
+      "type": "pullrequest_comment",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments/105331691"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#comment-105331691"
+        },
+        "code": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/diff/tomasbjerre/violations-test:a31d1b70c972..b563d040b08e?path=src%2Fmain%2Fjava%2Fse%2Fbjurr%2Fviolations%2Flib%2Fexample%2FMyClass.java"
+        }
+      },
+      "pullrequest": {
+        "type": "pullrequest",
+        "id": 1,
+        "title": "some crap",
+        "draft": false,
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1"
+          },
+          "html": {
+            "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1"
+          }
+        },
+        "queued": false
+      }
+    },
+    {
+      "id": 138478756,
+      "created_on": "2020-03-03T19:36:12.698418+00:00",
+      "updated_on": "2020-03-03T19:36:12.711599+00:00",
+      "content": {
+        "type": "rendered",
+        "raw": "Found 3 violations:\n\n\n\n-----------\n\n\n\n\n**max-empty-lines**\n\n\nExpected no more than 1 empty line (max-empty-lines)&#10;&#10;On line 3, column 1 in C:\\Github\\jenkins_test\\org_newbalance\\cartridges\\org_newbalance\\cartridge\\client\\default\\scss\\homePage.scss\n\n\n \n\n*<this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF>* *<a-447817314>*\n\n\n-----------\n\n\n\n\n**no-eol-whitespace**\n\n\nUnexpected whitespace at end of line (no-eol-whitespace)&#10;&#10;On line 399, column 38 in C:\\Github\\jenkins_test\\org_newbalance\\cartridges\\org_newbalance\\cartridge\\client\\default\\scss\\product\\detail.scss\n\n\n \n\n*<this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF>* *<a676209248>*\n\n\n-----------\n\n\n\n\n**fraud detection hook should return a success object**\n\n\nexpected &#39;success&#39; to equal &#39;succes&#39;&#10;&#10;AssertionError: expected &#39;success&#39; to equal &#39;succes&#39;&#10;    at Context.&lt;anonymous&gt; (test\\unit\\org_newbalance\\scripts\\hooks\\fraudDetection.js:11:16)&#10;    at processImmediate (internal/timers.js:439:21)\n\n\n \n\n*<this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF>* *<a1697485710>*\n *<ACCUMULATED-VIOLATIONS>*",
+        "markup": "markdown",
+        "html": "<p>Found 3 violations:</p>\n<hr>\n<p><strong>max-empty-lines</strong></p>\n<p>Expected no more than 1 empty line (max-empty-lines)&#10;&#10;On line 3, column 1 in C:\\Github\\jenkins_test\\org_newbalance\\cartridges\\org_newbalance\\cartridge\\client\\default\\scss\\homePage.scss</p>\n<p><em>&lt;this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF&gt;</em> <em>&lt;a-447817314&gt;</em></p>\n<hr>\n<p><strong>no-eol-whitespace</strong></p>\n<p>Unexpected whitespace at end of line (no-eol-whitespace)&#10;&#10;On line 399, column 38 in C:\\Github\\jenkins_test\\org_newbalance\\cartridges\\org_newbalance\\cartridge\\client\\default\\scss\\product\\detail.scss</p>\n<p><em>&lt;this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF&gt;</em> <em>&lt;<a href=\"https://bitbucket.org/tomasbjerre/violations-test/commits/a676209248\" rel=\"nofollow\" class=\"ap-connect-link\">a676209248</a>&gt;</em></p>\n<hr>\n<p><strong>fraud detection hook should return a success object</strong></p>\n<p>expected &#39;success&#39; to equal &#39;succes&#39;&#10;&#10;AssertionError: expected &#39;success&#39; to equal &#39;succes&#39;&#10;    at Context.&lt;anonymous&gt; (test\\unit\\org_newbalance\\scripts\\hooks\\fraudDetection.js:11:16)&#10;    at processImmediate (internal/timers.js:439:21)</p>\n<p><em>&lt;this is a auto generated comment from violation-comments-lib F7F8ASD8123FSDF&gt;</em> <em>&lt;<a href=\"https://bitbucket.org/tomasbjerre/violations-test/commits/a1697485710\" rel=\"nofollow\" class=\"ap-connect-link\">a1697485710</a>&gt;</em>\n <em>&lt;ACCUMULATED-VIOLATIONS&gt;</em></p>"
+      },
+      "user": {
+        "display_name": "Tomas Bjerre",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+          },
+          "avatar": {
+            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+          },
+          "html": {
+            "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+          }
+        },
+        "type": "user",
+        "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+        "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+        "nickname": "Tomas Bjerre"
+      },
+      "deleted": false,
+      "pending": false,
+      "type": "pullrequest_comment",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments/138478756"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#comment-138478756"
+        }
+      },
+      "pullrequest": {
+        "type": "pullrequest",
+        "id": 1,
+        "title": "some crap",
+        "draft": false,
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1"
+          },
+          "html": {
+            "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1"
+          }
+        },
+        "queued": false
+      }
+    },
+    {
+      "id": 104266492,
+      "created_on": "2019-06-03T12:10:44.614551+00:00",
+      "updated_on": "2020-07-05T12:49:40.572027+00:00",
+      "content": {
+        "type": "rendered",
+        "raw": "",
+        "markup": "markdown",
+        "html": ""
+      },
+      "user": {
+        "display_name": "Tomas Bjerre",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+          },
+          "avatar": {
+            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+          },
+          "html": {
+            "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+          }
+        },
+        "type": "user",
+        "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+        "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+        "nickname": "Tomas Bjerre"
+      },
+      "deleted": true,
+      "pending": false,
+      "type": "pullrequest_comment",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments/104266492"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1/_/diff#comment-104266492"
+        }
+      },
+      "pullrequest": {
+        "type": "pullrequest",
+        "id": 1,
+        "title": "some crap",
+        "draft": false,
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1"
+          },
+          "html": {
+            "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1"
+          }
+        },
+        "queued": false
+      }
+    }
+  ],
+  "page": 1,
+  "size": 3
+}

@@ -1,0 +1,194 @@
+{
+  "comment_count": 39,
+  "task_count": 0,
+  "type": "pullrequest",
+  "id": 1,
+  "title": "some crap",
+  "description": "",
+  "rendered": {
+    "title": {
+      "type": "rendered",
+      "raw": "some crap",
+      "markup": "markdown",
+      "html": "<p>some crap</p>"
+    },
+    "description": {
+      "type": "rendered",
+      "raw": "",
+      "markup": "markdown",
+      "html": ""
+    }
+  },
+  "state": "OPEN",
+  "draft": false,
+  "merge_commit": null,
+  "close_source_branch": false,
+  "closed_by": null,
+  "author": {
+    "display_name": "Tomas Bjerre",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+      },
+      "avatar": {
+        "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+      },
+      "html": {
+        "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+      }
+    },
+    "type": "user",
+    "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+    "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+    "nickname": "Tomas Bjerre"
+  },
+  "reason": "",
+  "created_on": "2019-06-02T17:27:45.162825+00:00",
+  "updated_on": "2021-04-04T18:17:13.371112+00:00",
+  "destination": {
+    "branch": {
+      "name": "master"
+    },
+    "commit": {
+      "hash": "b563d040b08e",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/commit/b563d040b08e"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test/commits/b563d040b08e"
+        }
+      },
+      "type": "commit"
+    },
+    "repository": {
+      "type": "repository",
+      "full_name": "tomasbjerre/violations-test",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test"
+        },
+        "avatar": {
+          "href": "https://bytebucket.org/ravatar/%7B4c0c3ad0-aebe-48e5-b01d-87958afe9a8a%7D?ts=default"
+        }
+      },
+      "name": "violations-test",
+      "uuid": "{4c0c3ad0-aebe-48e5-b01d-87958afe9a8a}"
+    }
+  },
+  "source": {
+    "branch": {
+      "name": "feature/addingcrap",
+      "links": {},
+      "sync_strategies": [
+        "merge_commit",
+        "rebase"
+      ]
+    },
+    "commit": {
+      "hash": "a31d1b70c972",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/commit/a31d1b70c972"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test/commits/a31d1b70c972"
+        }
+      },
+      "type": "commit"
+    },
+    "repository": {
+      "type": "repository",
+      "full_name": "tomasbjerre/violations-test",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test"
+        },
+        "html": {
+          "href": "https://bitbucket.org/tomasbjerre/violations-test"
+        },
+        "avatar": {
+          "href": "https://bytebucket.org/ravatar/%7B4c0c3ad0-aebe-48e5-b01d-87958afe9a8a%7D?ts=default"
+        }
+      },
+      "name": "violations-test",
+      "uuid": "{4c0c3ad0-aebe-48e5-b01d-87958afe9a8a}"
+    }
+  },
+  "reviewers": [],
+  "participants": [
+    {
+      "type": "participant",
+      "user": {
+        "display_name": "Tomas Bjerre",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D"
+          },
+          "avatar": {
+            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:0fbe1228-7921-4710-ad7d-7320eb63191b/2674c3bc-f862-4cca-8dbc-0fd02866e2ca/128"
+          },
+          "html": {
+            "href": "https://bitbucket.org/%7B75390a4d-197a-413c-be64-4c54c3fda508%7D/"
+          }
+        },
+        "type": "user",
+        "uuid": "{75390a4d-197a-413c-be64-4c54c3fda508}",
+        "account_id": "557058:0fbe1228-7921-4710-ad7d-7320eb63191b",
+        "nickname": "Tomas Bjerre"
+      },
+      "role": "PARTICIPANT",
+      "approved": false,
+      "state": null,
+      "participated_on": "2021-04-04T15:10:09.033900+00:00"
+    }
+  ],
+  "links": {
+    "self": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1"
+    },
+    "html": {
+      "href": "https://bitbucket.org/tomasbjerre/violations-test/pull-requests/1"
+    },
+    "commits": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/commits"
+    },
+    "approve": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/approve"
+    },
+    "request-changes": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/request-changes"
+    },
+    "diff": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/diff/tomasbjerre/violations-test:a31d1b70c972%0Db563d040b08e?from_pullrequest_id=1"
+    },
+    "diffstat": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/diffstat/tomasbjerre/violations-test:a31d1b70c972%0Db563d040b08e?from_pullrequest_id=1"
+    },
+    "comments": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/comments"
+    },
+    "activity": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/activity"
+    },
+    "merge": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/merge"
+    },
+    "decline": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/decline"
+    },
+    "statuses": {
+      "href": "https://api.bitbucket.org/2.0/repositories/tomasbjerre/violations-test/pullrequests/1/statuses"
+    }
+  },
+  "summary": {
+    "type": "rendered",
+    "raw": "",
+    "markup": "markdown",
+    "html": ""
+  },
+  "queued": false
+}

@@ -57,7 +57,6 @@ public class RestEasyClientFactory {
             .build();
 
     final ResteasyWebTarget target = client.target(UriBuilder.fromPath(baseUrl));
-    final T proxy = target.proxy(clazz);
-    return proxy;
+    return target.proxy(clazz);
   }
 }

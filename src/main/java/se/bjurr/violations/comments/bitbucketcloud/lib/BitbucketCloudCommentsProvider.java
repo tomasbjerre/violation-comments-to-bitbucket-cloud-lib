@@ -2,10 +2,28 @@ package se.bjurr.violations.comments.bitbucketcloud.lib;
 
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response.Status;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import se.bjurr.bitbucketcloud.gen.api.RepositoriesApi;
-import se.bjurr.bitbucketcloud.gen.model.*;
+import se.bjurr.bitbucketcloud.gen.model.Activity;
+import se.bjurr.bitbucketcloud.gen.model.CommentContent;
+import se.bjurr.bitbucketcloud.gen.model.CommentInline;
+import se.bjurr.bitbucketcloud.gen.model.Commit;
+import se.bjurr.bitbucketcloud.gen.model.Diffstat;
+import se.bjurr.bitbucketcloud.gen.model.PaginatedActivities;
+import se.bjurr.bitbucketcloud.gen.model.PaginatedDiffstats;
+import se.bjurr.bitbucketcloud.gen.model.PaginatedPullrequestComments;
+import se.bjurr.bitbucketcloud.gen.model.PaginatedTasks;
+import se.bjurr.bitbucketcloud.gen.model.Pullrequest;
+import se.bjurr.bitbucketcloud.gen.model.PullrequestCommentTask;
+import se.bjurr.bitbucketcloud.gen.model.PullrequestTaskCreate;
+import se.bjurr.bitbucketcloud.gen.model.PullrequestTaskUpdate;
+import se.bjurr.bitbucketcloud.gen.model.TaskRawContent;
 import se.bjurr.violations.comments.bitbucketcloud.lib.client.RestEasyClientFactory;
 import se.bjurr.violations.comments.lib.CommentsProvider;
 import se.bjurr.violations.comments.lib.model.ChangedFile;
@@ -112,7 +130,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
 
     final List<Comment> comments =
         activities.getValues().stream()
-            .map(it -> it.getComment())
+            .map(Activity::getComment)
             .filter(it -> it != null)
             .map(it -> toComment(it, taskIdByCommentId))
             .collect(Collectors.toList());
@@ -167,7 +185,7 @@ public class BitbucketCloudCommentsProvider implements CommentsProvider {
   public List<ChangedFile> getFiles() {
     final List<Diffstat> values = getDiffstat();
     return values.stream()
-        .filter((it) -> isNotDeleted(it))
+        .filter(this::isNotDeleted)
         .map(
             (it) -> {
               final String filename = it.getNew().getPath();

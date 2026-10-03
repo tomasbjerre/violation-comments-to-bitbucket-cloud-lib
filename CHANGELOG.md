@@ -1,3 +1,9 @@
+## 2.2.2 (2026-10-03)
+
+### Dependency updates
+
+- update plugin se.bjurr.gradle.bundle-jar to v2.4.1 (#20) ([24fce](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/24fce07c3ed8877) renovate[bot])  
+- update dependency se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api to v3.2.6 (#21) ([a4234](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/a4234e4b7f599e1) renovate[bot])  
 ## 2.2.0 (2026-09-18)
 
 ### Features

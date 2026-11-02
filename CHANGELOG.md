@@ -1,3 +1,12 @@
+## 2.2.3 (2026-10-24)
+
+### Dependency updates
+
+- update dependency tools.jackson.core:jackson-databind to v3.2.4 (#27) ([97e48](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/97e480229c60238) renovate[bot])  
+- update dependency gradle to v9.8.2 (#26) ([a54b0](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/a54b04fce024539) renovate[bot])  
+- update dependency gradle to v9.8.1 (#25) ([3f926](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/3f926e6c3c90a8c) renovate[bot])  
+- update dependency se.bjurr.bitbucketcloud:bitbucket-cloud-java-rest-api to v3.2.7 (#23) ([99312](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/993126d5d71a6a5) renovate[bot])  
+- update dependency se.bjurr.violations:violation-comments-lib to v1.111.2 (#22) ([a6f33](https://github.com/tomasbjerre/violation-comments-to-bitbucket-cloud-lib/commit/a6f33f87d926bbe) renovate[bot])  
 ## 2.2.2 (2026-10-03)
 
 ### Dependency updates
